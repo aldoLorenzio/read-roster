@@ -3,6 +3,7 @@ const authRoute = require('./auth.route');
 const userRoute = require('./user.route');
 const docsRoute = require('./docs.route');
 const genreRoute = require('./genre.route');
+const bukuRoute = require('./buku.route');
 const config = require('../../config/config');
 
 const router = express.Router();
@@ -19,6 +20,10 @@ const defaultRoutes = [
   {
     path: '/genre',
     route: genreRoute,
+  },
+  {
+    path: '/buku',
+    route: bukuRoute,
   },
 ];
 
