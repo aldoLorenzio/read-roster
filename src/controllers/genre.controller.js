@@ -17,7 +17,6 @@ const createGenre = catchAsync(async (req, res) => {
 const getGenres = catchAsync(async (req, res) => {
   const filter = { genre: req.query.genre };
   const options = {
-    sortBy: req.query.sortBy,
     take: req.query.take,
     skip: req.query.skip,
   };

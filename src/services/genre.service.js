@@ -13,17 +13,17 @@ const queryGenres = async (filter, options) => {
   const { take, skip } = options;
   const genres = await prisma.genre.findMany({
     where: {
-      genreName: {
+      genre: {
         contains: genre,
       },
     },
     include: {
-      subjects: true,
+      Buku: true,
     },
     take: take && parseInt(take),
     skip: skip && parseInt(skip),
     orderBy: {
-      genreName: 'asc',
+      genre: 'asc',
     },
   });
   return genres;
@@ -35,7 +35,7 @@ const getGenreById = async (id) => {
       id,
     },
     include: {
-      subjects: true,
+      Buku: true,
     },
   });
 };
