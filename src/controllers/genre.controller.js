@@ -63,21 +63,10 @@ const deleteGenre = catchAsync(async (req, res) => {
   });
 });
 
-const querySubmitTaskByGenre = catchAsync(async (req, res) => {
-  const querySubmitTask = await genreService.querySubmitTaskByGenre(req.params.genreId);
-
-  res.status(httpStatus.OK).send({
-    status: httpStatus.OK,
-    message: 'Get Submit Task by Genre Success',
-    data: querySubmitTask,
-  });
-});
-
 module.exports = {
   createGenre,
   getGenres,
   getGenre,
   updateGenre,
   deleteGenre,
-  querySubmitTaskByGenre,
 };
