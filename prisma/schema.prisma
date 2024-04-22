@@ -6,7 +6,7 @@ generator client {
 }
 
 datasource db {
-  provider = "mysql"
+  provider = "postgresql"
   url      = env("DB_URL")
 }
 
@@ -17,9 +17,10 @@ model User {
   password  String    
   role      String    @default("user")
   createdAt DateTime  @default(now())
-  updateAt  DateTime  @default(now())
+  updateAt  DateTime  @updatedAt
   isEmailVerified Boolean @default(false)
   tokens    Token[]
+  Peminjaman  Peminjaman[]
 }
 model Token {
   id        String    @id @default(uuid())
@@ -30,5 +31,39 @@ model Token {
   expires   DateTime
   blacklisted Boolean @default(false)
   createdAt DateTime  @default(now())
-  updateAt  DateTime  @default(now())
+  updateAt  DateTime  @updatedAt
+}
+
+model Genre {
+  id          String    @id @default(uuid())
+  genre       String
+  Buku        Buku[]
+  createdAt   DateTime  @default(now())
+  updatedAt   DateTime  @updatedAt
+}
+
+model Buku {
+  id              String  @id @default(uuid())
+  genreId         String
+  genre           Genre   @relation(fields: [genreId], references: [id], onDelete: Cascade)
+  title           String
+  author          String
+  year_published  Int  
+  stock           Int
+  Peminjaman      Peminjaman[]
+  createdAt       DateTime  @default(now())
+  updatedAt       DateTime  @updatedAt
+}
+
+model Peminjaman {
+  id            String  @id @default(uuid())
+  bukuId        String
+  Buku          Buku    @relation(fields: [bukuId], references: [id])
+  userId        String
+  User          User    @relation(fields: [userId], references: [id], onDelete: Cascade)
+  date_borrow   String
+  date_due      String
+  date_returned String  @default("Belum Dikembalikan")
+  createdAt     DateTime  @default(now())
+  updatedAt     DateTime  @updatedAt
 }
