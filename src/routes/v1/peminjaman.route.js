@@ -1,38 +1,38 @@
 const express = require('express');
 const auth = require('../../middlewares/auth');
 const validate = require('../../middlewares/validate');
-const userValidation = require('../../validations/user.validation');
-const userController = require('../../controllers/user.controller');
+const peminjamanValidation = require('../../validations/peminjaman.validation');
+const peminjamanController = require('../../controllers/peminjaman.controller');
 
 const router = express.Router();
 
 router
   .route('/')
-  .post(auth('manageUsers'), validate(userValidation.createUser), userController.createUser)
-  .get(auth('admin'), validate(userValidation.getUsers), userController.getUsers);
+  .post(auth('manageUsers'), validate(peminjamanValidation.createPeminjaman), peminjamanController.createPeminjaman)
+  .get(auth('manageUsers'), validate(peminjamanValidation.getPeminjamans), peminjamanController.getPeminjamans);
 
 router
-  .route('/:userId')
-  .get(auth('admin'), validate(userValidation.getUser), userController.getUser)
-  .patch(auth('admin'), validate(userValidation.updateUser), userController.updateUser)
-  .delete(auth('admin'), validate(userValidation.deleteUser), userController.deleteUser);
+  .route('/:peminjamanId')
+  .get(auth('admin'), validate(peminjamanValidation.getPeminjaman), peminjamanController.getPeminjaman)
+  .patch(auth('admin'), validate(peminjamanValidation.updatePeminjaman), peminjamanController.updatePeminjaman)
+  .delete(auth('admin'), validate(peminjamanValidation.deletePeminjaman), peminjamanController.deletePeminjaman);
 
 module.exports = router;
 
 /**
  * @swagger
  * tags:
- *   name: Users
- *   description: User management and retrieval
+ *   name: Peminjamans
+ *   description: Peminjaman management and retrieval
  */
 
 /**
  * @swagger
- * /users:
+ * /peminjamans:
  *   post:
- *     summary: Create a user
- *     description: Only admins can create other users.
- *     tags: [Users]
+ *     summary: Create a peminjaman
+ *     description: Only admins can create other peminjamans.
+ *     tags: [Peminjamans]
  *     security:
  *       - bearerAuth: []
  *     requestBody:
@@ -60,19 +60,19 @@ module.exports = router;
  *                 description: At least one number and one letter
  *               role:
  *                  type: string
- *                  enum: [user, admin]
+ *                  enum: [peminjaman, admin]
  *             example:
  *               name: fake name
  *               email: fake@example.com
  *               password: password1
- *               role: user
+ *               role: peminjaman
  *     responses:
  *       "201":
  *         description: Created
  *         content:
  *           application/json:
  *             schema:
- *                $ref: '#/components/schemas/User'
+ *                $ref: '#/components/schemas/Peminjaman'
  *       "400":
  *         $ref: '#/components/responses/DuplicateEmail'
  *       "401":
@@ -81,9 +81,9 @@ module.exports = router;
  *         $ref: '#/components/responses/Forbidden'
  *
  *   get:
- *     summary: Get all users
- *     description: Only admins can retrieve all users.
- *     tags: [Users]
+ *     summary: Get all peminjamans
+ *     description: Only admins can retrieve all peminjamans.
+ *     tags: [Peminjamans]
  *     security:
  *       - bearerAuth: []
  *     parameters:
@@ -91,12 +91,12 @@ module.exports = router;
  *         name: name
  *         schema:
  *           type: string
- *         description: User name
+ *         description: Peminjaman name
  *       - in: query
  *         name: role
  *         schema:
  *           type: string
- *         description: User role
+ *         description: Peminjaman role
  *       - in: query
  *         name: sortBy
  *         schema:
@@ -108,7 +108,7 @@ module.exports = router;
  *           type: integer
  *           minimum: 1
  *         default: 10
- *         description: Maximum number of users
+ *         description: Maximum number of peminjamans
  *       - in: query
  *         name: page
  *         schema:
@@ -127,7 +127,7 @@ module.exports = router;
  *                 results:
  *                   type: array
  *                   items:
- *                     $ref: '#/components/schemas/User'
+ *                     $ref: '#/components/schemas/Peminjaman'
  *                 page:
  *                   type: integer
  *                   example: 1
@@ -148,11 +148,11 @@ module.exports = router;
 
 /**
  * @swagger
- * /users/{id}:
+ * /peminjamans/{id}:
  *   get:
- *     summary: Get a user
- *     description: Logged in users can fetch only their own user information. Only admins can fetch other users.
- *     tags: [Users]
+ *     summary: Get a peminjaman
+ *     description: Logged in peminjamans can fetch only their own peminjaman information. Only admins can fetch other peminjamans.
+ *     tags: [Peminjamans]
  *     security:
  *       - bearerAuth: []
  *     parameters:
@@ -161,14 +161,14 @@ module.exports = router;
  *         required: true
  *         schema:
  *           type: string
- *         description: User id
+ *         description: Peminjaman id
  *     responses:
  *       "200":
  *         description: OK
  *         content:
  *           application/json:
  *             schema:
- *                $ref: '#/components/schemas/User'
+ *                $ref: '#/components/schemas/Peminjaman'
  *       "401":
  *         $ref: '#/components/responses/Unauthorized'
  *       "403":
@@ -177,9 +177,9 @@ module.exports = router;
  *         $ref: '#/components/responses/NotFound'
  *
  *   patch:
- *     summary: Update a user
- *     description: Logged in users can only update their own information. Only admins can update other users.
- *     tags: [Users]
+ *     summary: Update a peminjaman
+ *     description: Logged in peminjamans can only update their own information. Only admins can update other peminjamans.
+ *     tags: [Peminjamans]
  *     security:
  *       - bearerAuth: []
  *     parameters:
@@ -188,7 +188,7 @@ module.exports = router;
  *         required: true
  *         schema:
  *           type: string
- *         description: User id
+ *         description: Peminjaman id
  *     requestBody:
  *       required: true
  *       content:
@@ -217,7 +217,7 @@ module.exports = router;
  *         content:
  *           application/json:
  *             schema:
- *                $ref: '#/components/schemas/User'
+ *                $ref: '#/components/schemas/Peminjaman'
  *       "400":
  *         $ref: '#/components/responses/DuplicateEmail'
  *       "401":
@@ -228,9 +228,9 @@ module.exports = router;
  *         $ref: '#/components/responses/NotFound'
  *
  *   delete:
- *     summary: Delete a user
- *     description: Logged in users can delete only themselves. Only admins can delete other users.
- *     tags: [Users]
+ *     summary: Delete a peminjaman
+ *     description: Logged in peminjamans can delete only themselves. Only admins can delete other peminjamans.
+ *     tags: [Peminjamans]
  *     security:
  *       - bearerAuth: []
  *     parameters:
@@ -239,7 +239,7 @@ module.exports = router;
  *         required: true
  *         schema:
  *           type: string
- *         description: User id
+ *         description: Peminjaman id
  *     responses:
  *       "200":
  *         description: No content

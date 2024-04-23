@@ -15,6 +15,7 @@ const queryBukus = async (filter, options) => {
     where: {
       title: {
         contains: buku,
+        mode: 'insensitive'
       },
     },
     include: {

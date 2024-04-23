@@ -21,7 +21,24 @@ const createUser = async (userBody) => {
  * @returns {Promise<QueryResult>}
  */
 const queryUsers = async (filter, options) => {
-  const users = await prisma.user.findMany();
+  const { user } = filter
+  const { take, skip } = options
+  const users = await prisma.user.findMany({
+    where: {
+      name: {
+        contains: user,
+        mode: 'insensitive'
+      },
+    },
+    include: {
+      Peminjaman: true,
+    },
+    take: take && parseInt(take),
+    skip: skip && parseInt(skip),
+    orderBy: {
+      name: 'asc',
+    },
+  });
   return users;
 };
 
