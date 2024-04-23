@@ -4,6 +4,7 @@ const userRoute = require('./user.route');
 const docsRoute = require('./docs.route');
 const genreRoute = require('./genre.route');
 const bukuRoute = require('./buku.route');
+const peminjamanRoute = require('./peminjaman.route')
 const config = require('../../config/config');
 
 const router = express.Router();
@@ -25,6 +26,10 @@ const defaultRoutes = [
     path: '/buku',
     route: bukuRoute,
   },
+  {
+    path: '/peminjaman',
+    route: peminjamanRoute,
+  }
 ];
 
 const devRoutes = [
