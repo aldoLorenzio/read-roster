@@ -5,13 +5,19 @@ const catchAsync = require('../utils/catchAsync');
 const { userService } = require('../services');
 
 const createUser = catchAsync(async (req, res) => {
-  const user = await userService.createUser(req.body);
+  // const user = await userService.createUser(req.body);
+  // res.status(httpStatus.CREATED).send({
+  //   status: httpStatus.CREATED,
+  //   message: 'Create User Success',
+  //   data: user,
+  // });
 
-  res.status(httpStatus.CREATED).send({
-    status: httpStatus.CREATED,
-    message: 'Create User Success',
-    data: user,
-  });
+  try {
+    await userService.createUser(req.body);
+    res.redirect('/users'); // Redirect ke daftar user setelah pembuatan
+  } catch (error) {
+    res.status(400).render('users/create', { error: 'Gagal membuat user' });
+  }
 });
 
 const getUsers = catchAsync(async (req, res) => {
