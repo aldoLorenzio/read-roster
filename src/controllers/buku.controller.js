@@ -15,7 +15,7 @@ const createBuku = catchAsync(async (req, res) => {
 });
 
 const getBukus = catchAsync(async (req, res) => {
-  const filter = { buku: req.query.buku };
+  const filter = { buku: req.query.title };
   const options = {
     take: req.query.take,
     skip: req.query.skip,

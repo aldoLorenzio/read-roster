@@ -9,12 +9,13 @@ const createGenre = async (genreBody) => {
 };
 
 const queryGenres = async (filter, options) => {
-  const { genre } = filter;
+  let { genre } = filter;
   const { take, skip } = options;
   const genres = await prisma.genre.findMany({
     where: {
       genre: {
         contains: genre,
+        mode: 'insensitive'
       },
     },
     include: {
