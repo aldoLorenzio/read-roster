@@ -15,8 +15,8 @@ const getBukus = {
   query: Joi.object().keys({
     title: Joi.string(),
     sortBy: Joi.string(),
-    limit: Joi.number().integer(),
-    page: Joi.number().integer(),
+    take: Joi.number().integer(),
+    skip: Joi.number().integer(),
   }),
 };
 
