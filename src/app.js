@@ -13,6 +13,8 @@ const { authLimiter } = require('./middlewares/rateLimiter');
 const routes = require('./routes/v1');
 const { errorConverter, errorHandler } = require('./middlewares/error');
 const ApiError = require('./utils/ApiError');
+const auth = require('./middlewares/auth');
+const cookieParser = require('cookie-parser');
 
 const app = express();
 
@@ -48,6 +50,7 @@ app.use(cors());
 app.options('*', cors());
 
 // jwt authentication
+app.use(cookieParser())
 app.use(passport.initialize());
 passport.use('jwt', jwtStrategy);
 
@@ -55,6 +58,10 @@ passport.use('jwt', jwtStrategy);
 if (config.env === 'production') {
   app.use('/v1/auth', authLimiter);
 }
+
+app.get('/v1', auth(), (req,res) => {
+  res.render('index')
+})
 
 // v1 api routes
 app.use('/v1', routes);

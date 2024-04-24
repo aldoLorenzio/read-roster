@@ -3,9 +3,16 @@ const config = require('./config');
 const { tokenTypes } = require('./tokens');
 const prisma = require('../../prisma/client');
 
+const cookieExtractor = (req) => {
+  let token;
+  if (req && req.cookies) token = req.cookies['jwt'];
+  return token;
+};
+
 const jwtOptions = {
   secretOrKey: config.jwt.secret,
-  jwtFromRequest: ExtractJwt.fromAuthHeaderAsBearerToken(),
+  // jwtFromRequest: ExtractJwt.fromAuthHeaderAsBearerToken(),
+  jwtFromRequest: cookieExtractor
 };
 
 const jwtVerify = async (payload, done) => {
@@ -27,4 +34,5 @@ const jwtStrategy = new JwtStrategy(jwtOptions, jwtVerify);
 
 module.exports = {
   jwtStrategy,
+  cookieExtractor
 };
