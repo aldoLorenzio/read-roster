@@ -1,7 +1,8 @@
 const httpStatus = require('http-status');
 const prisma = require('../../prisma/client');
 const ApiError = require('../utils/ApiError');
-const { bukuService , userService  } = require('./index')
+const { bukuService , userService  } = require('./index');
+const { getBukuById } = require('./buku.service');
 
 const createPeminjaman = async (peminjamanBody) => {
     const buku = await prisma.buku.findUnique({
@@ -67,34 +68,32 @@ const getPeminjamanById = async (id) => {
 
 const updatePeminjamanById = async (peminjamanId, updateBody) => {
   const peminjaman = await getPeminjamanById(peminjamanId);
+  if(!peminjaman) throw new ApiError(httpStatus.NOT_FOUND, 'Peminjaman tidak ditemukan')
 
-  if(!peminjaman) throw new ApiError(httpStatus.NOT_FOUND, 'Peminjaman not found')
-
-  const currentBuku = await prisma.buku.findUnique({
-    where:{
-      id: updateBody.bukuId
-    }
-  })
   const updatePeminjaman = await prisma.peminjaman.update({
     where:{
-      id: peminjamanId,
+      id: peminjamanId
     },
     data: updateBody
   })
 
+  const buku = await getBukuById(updatePeminjaman.bukuId)
+
   if(updateBody.date_returned){
     await prisma.buku.update({
       where:{
-        id: updateBody.bukuId
+        id: updatePeminjaman.bukuId
       },
       data:{
-        stock: currentBuku.stock + 1
+        stock: buku.stock + 1
       }
     })
   }
   
 
-
+  console.log(`Date_returned ${updateBody.date_returned}`)
+  console.log(`BukuId: ${updatePeminjaman.bukuId}`)
+  console.log(`BukuStock: ${buku.stock}`)
   return updatePeminjaman
 };
 
