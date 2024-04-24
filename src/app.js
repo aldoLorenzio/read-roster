@@ -5,6 +5,7 @@ const compression = require('compression');
 const cors = require('cors');
 const passport = require('passport');
 const httpStatus = require('http-status');
+const path = require('path');
 const config = require('./config/config');
 const morgan = require('./config/morgan');
 const { jwtStrategy } = require('./config/passport');
@@ -20,6 +21,10 @@ if (config.env !== 'test') {
   app.use(morgan.errorHandler);
 }
 
+// Set EJS sebagai template engine
+app.set('view engine', 'ejs');
+app.set('views', path.join(`${__dirname}/views`)); // Mengatur direktori views
+
 // set security HTTP headers
 app.use(helmet());
 
@@ -28,6 +33,9 @@ app.use(express.json());
 
 // parse urlencoded request body
 app.use(express.urlencoded({ extended: true }));
+
+// Serve static files
+app.use(express.static('public'));
 
 // sanitize request data
 app.use(xss());
@@ -52,9 +60,9 @@ if (config.env === 'production') {
 app.use('/v1', routes);
 
 // send back a 404 error for any unknown api request
-app.use((req, res, next) => {
-  next(new ApiError(httpStatus.NOT_FOUND, 'Not found'));
-});
+// app.use((req, res, next) => {
+//   next(new ApiError(httpStatus.NOT_FOUND, 'Not found'));
+// });
 
 // convert error to ApiError, if needed
 app.use(errorConverter);
