@@ -59,10 +59,6 @@ if (config.env === 'production') {
   app.use('/v1/auth', authLimiter);
 }
 
-app.get('/v1', auth(), (req,res) => {
-  res.render('index')
-})
-
 // v1 api routes
 app.use('/v1', routes);
 

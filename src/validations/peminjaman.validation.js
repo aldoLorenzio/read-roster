@@ -32,11 +32,11 @@ const updatePeminjaman = {
   }),
   body: Joi.object()
     .keys({
-        bukuId: Joi.string().custom(objectId),
-        userId: Joi.string().custom(objectId),
-        date_borrow: Joi.string(),
-        date_due: Joi.string(),
-        date_returned: Joi.string(),
+      bukuId: Joi.string().custom(objectId),
+      userId: Joi.string().custom(objectId),
+      date_borrow: Joi.string(),
+      date_due: Joi.string(),
+      date_returned: Joi.string(),
     })
     .min(1),
 };

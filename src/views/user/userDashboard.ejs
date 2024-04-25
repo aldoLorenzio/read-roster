@@ -1,0 +1,114 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+  <style>
+    table {
+      font-family: arial, sans-serif;
+      border-collapse: collapse;
+      width: 100%;
+    }
+
+    td,
+    th {
+      border: 1px solid #dddddd;
+      text-align: left;
+      padding: 8px;
+    }
+
+    tr:nth-child(even) {
+      background-color: #dddddd;
+    }
+
+    .dashboard-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding: 0 15px;
+    }
+  </style>
+</head>
+
+<body>
+  <table>
+    <div class="dashboard-header">
+      <h1>Welcome, <%= user.name %>!</h1>
+      <button>Logout</button>
+    </div>
+    <div>
+
+    </div>
+    <div style="display: flex;">
+      <div style="padding: 14px; flex: 1;">
+        <p>Email: <%= user.email %>
+        </p>
+        <p>Role: <%= user.role %>
+        </p>
+        <p>Account Created: <%= new Date(user.createdAt).toLocaleDateString() %> at <%= new
+              Date(user.createdAt).toLocaleTimeString() %>
+        </p>
+        <p>Last Updated: <%= new Date(user.updateAt).toLocaleDateString() %> at <%= new
+              Date(user.updateAt).toLocaleTimeString() %>
+        </p>
+        <p>Email Verified: <%= user.isEmailVerified ? 'Yes' : 'No' %>
+        </p>
+      </div>
+      <div style="padding: 14px; flex: 1;">
+        <h5>Form Borrow a Book</h5>
+        <form action="/v1/peminjaman" method="post">
+          <label for="bukuId">Book ID:</label><br>
+          <select id="bukuId" name="bukuId" required>
+            <% availableBooks.forEach(function(book) { %>
+              <option value="<%= book.id %>">
+                <%= book.title %>
+              </option>
+              <% }) %>
+          </select><br>
+          <label for="date_borrow">Date Borrow:</label><br>
+          <input type="date" id="date_borrow" name="date_borrow" required><br>
+          <label for="date_due">Date Due:</label><br>
+          <input type="date" id="date_due" name="date_due" required><br><br>
+          <input type="submit" value="Submit">
+        </form>
+      </div>
+    </div>
+
+
+    <div style="padding: 14px">
+      <table>
+        <tr>
+          <th>Loan Information</th>
+        </tr>
+        <tr>
+          <th>ID</th>
+          <th>Book ID</th>
+          <th>Date Borrow</th>
+          <th>Date Due</th>
+          <th>Date Returned</th>
+        </tr>
+        <% peminjamans.forEach(function(peminjaman) { %>
+          <tr>
+            <td>
+              <%= peminjaman.id %>
+            </td>
+            <td>
+              <%= peminjaman.bukuId %>
+            </td>
+            <td>
+              <%= new Date(peminjaman.date_borrow).toLocaleDateString() %>
+            </td>
+            <td>
+              <%= new Date(peminjaman.date_due).toLocaleDateString() %>
+            </td>
+            <td>
+              <%= peminjaman.date_returned ? new Date(peminjaman.date_returned).toLocaleDateString()
+                : 'Not returned yet' %>
+            </td>
+          </tr>
+          <% }) %>
+      </table>
+    </div>
+  </table>
+</body>
+
+</html>
