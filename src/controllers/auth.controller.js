@@ -1,6 +1,6 @@
 const httpStatus = require('http-status');
 const catchAsync = require('../utils/catchAsync');
-const { authService, userService, tokenService, emailService } = require('../services');
+const { authService, userService, tokenService, emailService, bukuService, peminjamanService } = require('../services');
 const ApiError = require('../utils/ApiError');
 
 const register = catchAsync(async (req, res) => {
@@ -19,8 +19,46 @@ const register = catchAsync(async (req, res) => {
 const login = catchAsync(async (req, res) => {
   const { email, password } = req.body;
   const user = await authService.loginUserWithEmailAndPassword(email, password);
-  const tokens = await tokenService.generateAuthTokens(user);
-  res.send({ user, tokens });
+  // const tokens = await tokenService.generateAuthTokens(user);
+  // res.send({ user, tokens });
+  // const { email, password } = req.body;
+  // const user = await authService.loginUserWithEmailAndPassword(email, password);
+
+  // if (user) {
+  //   // const tokens = awit tokenService.generateAuthTokens(user);
+  //   res.cookie('jwt', tokens.access.token, { httpOnly: true, secure: true });
+  //   res.render('user/userDashboard', { user });
+  // } else {
+  //   res.status(httpStatus.UNAUTHORIZED).send({
+  //     message: 'Invalid email or password',
+  //   });
+  // }
+  console.log(user);
+  // console.log(`email: ${email}, password: ${email}`);
+  if (user) {
+    const tokens = await tokenService.generateAuthTokens(user);
+    res.cookie('jwt', tokens.access.token, { httpOnly: true, secure: true });
+
+    if (user.role === 'admin') {
+      const users = await userService.queryUsers({}, {});
+      // console.log('users as admin:', users);
+      const bukus = await bukuService.queryBukus({}, {});
+      // console.log('bukus as admin:', bukus);
+
+      return res.render('user/adminDashboard', { users, bukus });
+    }
+    if (user.role === 'user') {
+      const peminjamans = await peminjamanService.queryPeminjamansForUser(user.id);
+      console.log('users as peminjamans:', peminjamans);
+      const availableBooks = await bukuService.getAvailableBooks();
+      console.log('availableBooks:', availableBooks);
+
+      return res.render('user/userDashboard', { user, peminjamans, availableBooks });
+    }
+  }
+  res.status(httpStatus.UNAUTHORIZED).send({
+    message: 'Invalid email or password',
+  });
 });
 
 const logout = catchAsync(async (req, res) => {

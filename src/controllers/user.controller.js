@@ -20,14 +20,23 @@ const getUsers = catchAsync(async (req, res) => {
     take: req.query.take,
     skip: req.query.skip,
   };
-
+  // console.log('Filter:', filter);
+  // console.log('Options:', options);
   const result = await userService.queryUsers(filter, options);
-
+  console.log('result getUsers:', result);
   res.status(httpStatus.OK).send({
     status: httpStatus.OK,
     message: 'Get Users Success',
     data: result,
   });
+  // if (!result || !Array.isArray(result)) {
+  //   return res.status(httpStatus.NOT_FOUND).render('getUsers.view.ejs', {
+  //     users: [],
+  //   });
+  // }
+  // res.render('users/getUsers.view.ejs', {
+  //   users: result,
+  // });
 });
 
 const getUser = catchAsync(async (req, res) => {

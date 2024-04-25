@@ -14,7 +14,6 @@ router.get('/register', (req, res) => {
 
 router.post('/login', validate(authValidation.login), authController.login);
 router.get('/login', (req, res) => {
-  console.log('Accessing login page');
   res.render('auth/login.ejs');
 });
 

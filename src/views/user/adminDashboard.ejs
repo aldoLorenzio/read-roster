@@ -1,0 +1,122 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+  <style>
+    table {
+      font-family: arial, sans-serif;
+      border-collapse: collapse;
+      width: 100%;
+    }
+
+    td,
+    th {
+      border: 1px solid #dddddd;
+      text-align: left;
+      padding: 8px;
+    }
+
+    tr:nth-child(even) {
+      background-color: #dddddd;
+    }
+
+    .dashboard-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding: 0 15px;
+    }
+  </style>
+</head>
+
+<body>
+  <div class="dashboard-header">
+    <h2>Admin Dashboard</h2>
+    <button>Logout</button>
+  </div>
+  <div style="padding: 14px">
+    <table>
+      <tr>
+        <th>User Information</th>
+      </tr>
+      <tr>
+        <th>ID</th>
+        <th>Name</th>
+        <th>Email</th>
+        <th>Role</th>
+        <th>Created At</th>
+        <th>Updated At</th>
+        <th>Email Verified</th>
+        <th>Peminjaman</th>
+      </tr>
+      <% users.forEach(function(user) { %>
+        <tr>
+          <td>
+            <%= user.id %>
+          </td>
+          <td>
+            <%= user.name %>
+          </td>
+          <td>
+            <%= user.email %>
+          </td>
+          <td>
+            <%= user.role %>
+          </td>
+          <td>
+            <%= user.createdAt.toISOString() %>
+          </td>
+          <td>
+            <%= user.updateAt.toISOString() %>
+          </td>
+          <td>
+            <%= user.isEmailVerified ? 'Yes' : 'No' %>
+          </td>
+          <td>
+            <%= user.Peminjaman.length %> Buku
+          </td> <!-- Menampilkan jumlah peminjaman -->
+        </tr>
+        <% }) %>
+    </table>
+  </div>
+
+  <div style="padding: 14px">
+    <table>
+      <tr>
+        <th>Book Information</th>
+        <th>
+          <button>add new book</button>
+        </th>
+      </tr>
+      <tr>
+        <th>Title</th>
+        <th>Author</th>
+        <th>Year Published</th>
+        <th>Stock</th>
+        <th></th>
+      </tr>
+      <% bukus.forEach(function(buku) { %>
+        <tr>
+          <td>
+            <%= buku.title %>
+          </td>
+          <td>
+            <%= buku.author %>
+          </td>
+          <td>
+            <%= buku.year_published %>
+          </td>
+          <td>
+            <%= buku.stock %>
+          </td>
+          <td>
+            <button>edit</button>
+            <button>delete</button>
+          </td>
+        </tr>
+        <% }) %>
+    </table>
+  </div>
+</body>
+
+</html>

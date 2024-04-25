@@ -29,7 +29,7 @@ const defaultRoutes = [
   {
     path: '/peminjaman',
     route: peminjamanRoute,
-  }
+  },
 ];
 
 const devRoutes = [

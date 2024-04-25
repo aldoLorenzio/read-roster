@@ -13,7 +13,7 @@ const { authLimiter } = require('./middlewares/rateLimiter');
 const routes = require('./routes/v1');
 const { errorConverter, errorHandler } = require('./middlewares/error');
 const ApiError = require('./utils/ApiError');
-
+const userRoutes = require('./routes/v1/user.route'); // Sesuaikan path sesuai struktur direktori Anda
 const app = express();
 
 if (config.env !== 'test') {
@@ -55,7 +55,6 @@ passport.use('jwt', jwtStrategy);
 if (config.env === 'production') {
   app.use('/v1/auth', authLimiter);
 }
-
 // v1 api routes
 app.use('/v1', routes);
 
