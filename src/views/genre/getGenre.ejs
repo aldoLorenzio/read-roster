@@ -1,0 +1,96 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Get Genre</title>
+    <style>
+              nav {
+      display: flex; /* 1 */
+      justify-content: space-between; /* 2 */
+      padding: 1rem 2rem; /* 3 */
+      background: cornflowerblue; /* 4 */
+      color: white /* 4 */
+    }
+
+    nav ul {
+    display: flex; /* 5 */
+    list-style: none; /* 6 */
+    }
+
+    nav li {
+    padding-left: 1rem; /* 7! */
+    }
+    nav a {
+    text-decoration: none;
+    color: white;
+    }
+
+    nav a:hover {
+        text-decoration: underline;
+    }
+
+    .logout{
+      background-color: black;
+    }
+
+
+
+    table {
+      font-family: arial, sans-serif;
+      border-collapse: collapse;
+      width: 100%;
+    }
+
+    td,
+    th {
+      border: 1px solid #dddddd;
+      text-align: left;
+      padding: 8px;
+    }
+
+    tr:nth-child(even) {
+      background-color: #dddddd;
+    }
+
+    .dashboard-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding: 0 15px;
+    }
+    </style>
+</head>
+<body>
+    <nav>
+        <h2>Admin Dashboard</h2>
+        <ul>
+          <li><a href="/v1/buku">Buku</a></li>
+          <li><a href="/v1/genre">Genre</a></li>
+          <li><a href="/v1/peminjaman">Peminjaman</a></li>
+        </ul>
+        <button class="logout" type="button"><a href="/v1/auth/logout">Logout</a></button>
+      </nav>
+
+    <% genres.forEach(function(genre){ %>
+        <h2><%= genre.genre %></h2>
+        <% genre.Buku.forEach(function(book){ %>
+        <table>
+            <tr>
+                <th>Title</th>
+                <th>Author</th>
+                <th>year_published</th>
+                <th>Stock</th>
+            </tr>
+            <tr>
+              <td><%= book.title %></td>
+              <td><%= book.author %></td>
+              <td><%= book.year_published %></td>
+              <td><%= book.stock %></td>
+                
+            </tr>
+            <% }) %>
+        </table>
+    <% }) %>
+</body>
+</html>
