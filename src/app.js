@@ -15,6 +15,7 @@ const { errorConverter, errorHandler } = require('./middlewares/error');
 const ApiError = require('./utils/ApiError');
 const auth = require('./middlewares/auth');
 const cookieParser = require('cookie-parser');
+const methodOverride = require('method-override')
 
 const app = express();
 
@@ -32,6 +33,9 @@ app.use(helmet());
 
 // parse json request body
 app.use(express.json());
+
+// Use method-override middleware
+app.use(methodOverride('_method'));
 
 app.use((req, res, next) => {
   console.log('Received Cookies: ', req.cookies); // Ini akan mencetak semua cookies yang diterima

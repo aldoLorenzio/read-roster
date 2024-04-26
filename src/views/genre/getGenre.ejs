@@ -73,8 +73,6 @@
       </nav>
 
     <% genres.forEach(function(genre){ %>
-        <h2><%= genre.genre %></h2>
-        <% genre.Buku.forEach(function(book){ %>
         <table>
             <tr>
                 <th>Title</th>
@@ -82,6 +80,8 @@
                 <th>year_published</th>
                 <th>Stock</th>
             </tr>
+        <h2><%= genre.genre %> (ID: <%= genre.id  %>)</h2>
+        <% genre.Buku.forEach(function(book){ %>
             <tr>
               <td><%= book.title %></td>
               <td><%= book.author %></td>

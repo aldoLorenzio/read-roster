@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Get Buku</title>
+    <title>Get Genre</title>
     <style>
               nav {
       display: flex; /* 1 */
@@ -72,43 +72,22 @@
         <button class="logout" type="button"><a href="/v1/auth/logout">Logout</a></button>
       </nav>
 
-      <div style="padding: 14px">
+        <h2><%= bukus.title %></h2>
         <table>
-          <tr>
-            <th>Book Information</th>
-            <th>
-              <a href="/v1/buku/create"><button>add new book</button></a>
-            </th>
-          </tr>
-          <tr>
-            <th>Title</th>
-            <th>Author</th>
-            <th>Genre</th>
-            <th>Stock</th>
-            <th></th>
-          </tr>
-          <% bukus.forEach(function(buku) { %>
             <tr>
-              <td>
-                <%= buku.title %>
-              </td>
-              <td>
-                <%= buku.author %>
-              </td>
-              <td>
-                <%= buku.genre.genre %>
-              </td>
-              <td>
-                <%= buku.stock %>
-              </td>
-              <td>
-                <a href="/v1/buku/detail/<%= buku.id %>"><button>Detail</button></a>
-                <button>edit</button>
-                <button>delete</button>
-              </td>
+                <th>Nama</th>
+                <th>Date_borrowed</th>
+                <th>Date_due</th>
+                <th>Date_Returned</th>
+            </tr>
+        <% bukus.Peminjaman.forEach(function(e){ %>
+            <tr>
+              <td><%= e.userId %></td>
+              <td><%= e.date_borrow %></td>
+              <td><%= e.date_due %></td>
+              <td><%= e.date_returned %></td>
             </tr>
             <% }) %>
         </table>
-      </div>
 </body>
 </html>
