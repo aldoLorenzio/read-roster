@@ -42,6 +42,9 @@ const queryPeminjamans = async (filter, options) => {
   const { date_borrow, date_due } = filter;
   const { take, skip } = options;
   const peminjamans = await prisma.peminjaman.findMany({
+    include: {
+      buku: true, // Asumsi bahwa ada relasi bernama 'buku' di model 'peminjaman'
+    },
     where: {
       date_borrow: {
         contains: date_borrow,
@@ -128,5 +131,5 @@ module.exports = {
   getPeminjamanById,
   updatePeminjamanById,
   deletePeminjamanById,
-  queryPeminjamansForUser
+  queryPeminjamansForUser,
 };

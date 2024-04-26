@@ -5,7 +5,17 @@ const catchAsync = require('../utils/catchAsync');
 const { peminjamanService } = require('../services');
 
 const createPeminjaman = catchAsync(async (req, res) => {
-  const peminjaman = await peminjamanService.createPeminjaman(req.body);
+  const userId = req.user.id;
+  console.log('Request User ID:', userId);
+
+  const peminjamanBody = {
+    bukuId: req.body.bukuId,
+    date_borrow: req.body.date_borrow,
+    date_due: req.body.date_due,
+    userId, // Mengambil ID dari pengguna yang terotentikasi
+  };
+
+  const peminjaman = await peminjamanService.createPeminjaman(peminjamanBody);
 
   res.status(httpStatus.CREATED).send({
     status: httpStatus.CREATED,

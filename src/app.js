@@ -15,6 +15,7 @@ const { errorConverter, errorHandler } = require('./middlewares/error');
 const ApiError = require('./utils/ApiError');
 const userRoutes = require('./routes/v1/user.route'); // Sesuaikan path sesuai struktur direktori Anda
 const app = express();
+const cookieParser = require('cookie-parser');
 
 if (config.env !== 'test') {
   app.use(morgan.successHandler);
@@ -30,6 +31,12 @@ app.use(helmet());
 
 // parse json request body
 app.use(express.json());
+
+app.use((req, res, next) => {
+  console.log('Received Cookies: ', req.cookies); // Ini akan mencetak semua cookies yang diterima
+  next();
+});
+
 
 // parse urlencoded request body
 app.use(express.urlencoded({ extended: true }));
@@ -47,6 +54,7 @@ app.use(compression());
 app.use(cors());
 app.options('*', cors());
 
+app.use(cookieParser());
 // jwt authentication
 app.use(passport.initialize());
 passport.use('jwt', jwtStrategy);

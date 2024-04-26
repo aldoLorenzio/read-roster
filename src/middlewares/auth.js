@@ -4,6 +4,10 @@ const ApiError = require('../utils/ApiError');
 const { roleRights } = require('../config/roles');
 
 const verifyCallback = (req, resolve, reject, requiredRights) => async (err, user, info) => {
+  console.log("Received headers:", req.headers);  // Log headers untuk melihat token
+  console.log('Error:', err);
+  console.log('User:', user);
+  console.log('Info:', info);
   if (err || info || !user) {
     return reject(new ApiError(httpStatus.UNAUTHORIZED, 'Please authenticate'));
   }
@@ -11,8 +15,12 @@ const verifyCallback = (req, resolve, reject, requiredRights) => async (err, use
 
   if (requiredRights.length) {
     const userRights = roleRights.get(user.role);
-    const hasRequiredRights = requiredRights.every((requiredRight) => userRights.includes(requiredRight));
-    if (!hasRequiredRights && req.params.userId !== user.id) {
+    // const hasRequiredRights = requiredRights.every((requiredRight) => userRights.includes(requiredRight));
+    const hasRequiredRights = requiredRights.every((requiredRight) => userRights && userRights.includes(requiredRight));
+    // if (!hasRequiredRights && req.params.userId !== user.id) {
+    //   return reject(new ApiError(httpStatus.FORBIDDEN, 'Forbidden'));
+    // }
+    if (!hasRequiredRights) {
       return reject(new ApiError(httpStatus.FORBIDDEN, 'Forbidden'));
     }
   }
