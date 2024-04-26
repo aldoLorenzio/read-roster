@@ -55,21 +55,24 @@
       </div>
       <div style="padding: 14px; flex: 1;">
         <h5>Form Borrow a Book</h5>
-        <form action="/v1/peminjaman" method="post">
-          <label for="bukuId">Book ID:</label><br>
+        <form id="borrowForm" action="/v1/peminjaman" method="post">
+          <label for="bukuId">Book Name:</label>
+          <br>
           <select id="bukuId" name="bukuId" required>
             <% availableBooks.forEach(function(book) { %>
               <option value="<%= book.id %>">
                 <%= book.title %>
               </option>
               <% }) %>
-          </select><br>
+          </select>
+          <br>
           <label for="date_borrow">Date Borrow:</label><br>
           <input type="date" id="date_borrow" name="date_borrow" required><br>
           <label for="date_due">Date Due:</label><br>
           <input type="date" id="date_due" name="date_due" required><br><br>
           <input type="submit" value="Submit">
         </form>
+
       </div>
     </div>
 
@@ -81,7 +84,7 @@
         </tr>
         <tr>
           <th>ID</th>
-          <th>Book ID</th>
+          <th>Book Name</th>
           <th>Date Borrow</th>
           <th>Date Due</th>
           <th>Date Returned</th>
@@ -92,7 +95,7 @@
               <%= peminjaman.id %>
             </td>
             <td>
-              <%= peminjaman.bukuId %>
+              <%=  peminjaman.Buku.title  %>
             </td>
             <td>
               <%= new Date(peminjaman.date_borrow).toLocaleDateString() %>
@@ -109,6 +112,26 @@
       </table>
     </div>
   </table>
+  <!-- JavaScript should be placed here right before the closing body tag -->
+  <script>
+    document.getElementById('borrowForm').addEventListener('submit', function (event) {
+      event.preventDefault();
+      const formData = new FormData(this);
+      const data = {};
+      formData.forEach((value, key) => { data[key] = value; });
+      fetch('/v1/peminjaman', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+          'Authorization': `Bearer ${localStorage.getItem('token')}`
+        },
+        body: JSON.stringify(data)
+      })
+        .then(response => response.json())
+        .then(data => console.log(data))
+        .catch(error => console.error('Error:', error));
+    });
+  </script>
 </body>
 
 </html>

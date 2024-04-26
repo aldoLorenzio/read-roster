@@ -33,11 +33,11 @@ const login = catchAsync(async (req, res) => {
   //     message: 'Invalid email or password',
   //   });
   // }
-  console.log(user);
+  // console.log('useeeeer',user);
   // console.log(`email: ${email}, password: ${email}`);
   if (user) {
     const tokens = await tokenService.generateAuthTokens(user);
-    res.cookie('jwt', tokens.access.token, { httpOnly: true, secure: true });
+    res.cookie('jwt', tokens.access.token, { httpOnly: true, secure: process.env.NODE_ENV === 'production' });
 
     if (user.role === 'admin') {
       const users = await userService.queryUsers({}, {});
@@ -50,7 +50,7 @@ const login = catchAsync(async (req, res) => {
     if (user.role === 'user') {
       const peminjamans = await peminjamanService.queryPeminjamansForUser(user.id);
       console.log('users as peminjamans:', peminjamans);
-      const availableBooks = await bukuService.getAvailableBooks();
+      const availableBooks = await bukuService.getAvailableBooksByName();
       console.log('availableBooks:', availableBooks);
 
       return res.render('user/userDashboard', { user, peminjamans, availableBooks });

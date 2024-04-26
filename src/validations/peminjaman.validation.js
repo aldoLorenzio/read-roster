@@ -4,10 +4,9 @@ const { objectId } = require('./custom.validation');
 const createPeminjaman = {
   body: Joi.object().keys({
     bukuId: Joi.string().custom(objectId).required(),
-    userId: Joi.string().custom(objectId).required(),
-    date_borrow: Joi.string().required(),
-    date_due: Joi.string().required(),
-    date_returned: Joi.string(),
+    date_borrow: Joi.date().required(),
+    date_due: Joi.date().required(),
+    date_returned: Joi.string().allow('', null),
   }),
 };
 
