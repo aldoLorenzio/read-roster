@@ -104,7 +104,7 @@
               <td>
                 <a href="/v1/buku/detail/<%= buku.id %>"><button>Detail</button></a>
                 <button>edit</button>
-                <button>delete</button>
+                <form action="/v1/buku/<%= buku.id %>?_method=DELETE" method="post"><button type="submit">Delete</button></form>
               </td>
             </tr>
             <% }) %>
