@@ -12,6 +12,14 @@ router
   .get(auth('admin'), validate(bukuValidation.getBukus), bukuController.getBukus);
 
 router
+  .route('/detail/:bukuId')
+  .get(bukuController.detailBuku);
+
+router
+  .route('/create')
+  .get(bukuController.createView);
+
+router
   .route('/:bukuId')
   .get(auth('admin'), validate(bukuValidation.getBuku), bukuController.getBuku)
   .patch(auth('admin'), validate(bukuValidation.updateBuku), bukuController.updateBuku)

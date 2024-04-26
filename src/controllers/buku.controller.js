@@ -23,11 +23,15 @@ const getBukus = catchAsync(async (req, res) => {
 
   const result = await bukuService.queryBukus(filter, options);
 
-  res.status(httpStatus.OK).send({
-    status: httpStatus.OK,
-    message: 'Get Bukus Success',
-    data: result,
-  });
+  // res.status(httpStatus.OK).send({
+  //   status: httpStatus.OK,
+  //   message: 'Get Bukus Success',
+  //   data: result,
+  // });
+
+  res.render('buku/getBuku.ejs', {
+    bukus: result
+  })
 });
 
 const getBuku = catchAsync(async (req, res) => {
@@ -42,6 +46,18 @@ const getBuku = catchAsync(async (req, res) => {
     data: buku,
   });
 });
+
+const detailBuku = catchAsync(async(req,res) => {
+ const buku = await bukuService.getBukuById(req.params.bukuId);
+
+ res.render('buku/detailBuku.ejs',{
+  bukus: buku
+ })
+})
+
+const createView = catchAsync(async(req,res) => {
+  res.render('buku/createBuku.ejs')
+})
 
 const updateBuku = catchAsync(async (req, res) => {
   const buku = await bukuService.updateBukuById(req.params.bukuId, req.body);
@@ -69,4 +85,6 @@ module.exports = {
   getBuku,
   updateBuku,
   deleteBuku,
+  detailBuku,
+  createView,
 };

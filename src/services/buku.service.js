@@ -19,6 +19,7 @@ const queryBukus = async (filter, options) => {
       },
     },
     include: {
+      genre: true,
       Peminjaman: true,
     },
     take: take && parseInt(take),
@@ -36,6 +37,7 @@ const getBukuById = async (id) => {
       id,
     },
     include: {
+      genre: true,
       Peminjaman: true,
     },
   });

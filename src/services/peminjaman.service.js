@@ -43,7 +43,8 @@ const queryPeminjamans = async (filter, options) => {
   const { take, skip } = options;
   const peminjamans = await prisma.peminjaman.findMany({
     include: {
-      buku: true, // Asumsi bahwa ada relasi bernama 'buku' di model 'peminjaman'
+      Buku: true,
+      User: true, // Asumsi bahwa ada relasi bernama 'buku' di model 'peminjaman'
     },
     where: {
       date_borrow: {

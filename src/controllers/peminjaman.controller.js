@@ -33,11 +33,15 @@ const getPeminjamans = catchAsync(async (req, res) => {
 
   const result = await peminjamanService.queryPeminjamans(filter, options);
 
-  res.status(httpStatus.OK).send({
-    status: httpStatus.OK,
-    message: 'Get Peminjamans Success',
-    data: result,
-  });
+  // res.status(httpStatus.OK).send({
+  //   status: httpStatus.OK,
+  //   message: 'Get Peminjamans Success',
+  //   data: result,
+  // });
+
+  res.render('peminjaman/getPeminjaman.ejs', {
+    peminjamans:result,
+  })
 });
 
 const getPeminjaman = catchAsync(async (req, res) => {
