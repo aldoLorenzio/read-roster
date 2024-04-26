@@ -17,7 +17,10 @@ router.get('/login', (req, res) => {
   res.render('auth/login.ejs');
 });
 
-router.post('/logout', validate(authValidation.logout), authController.logout);
+router.get('/logout', (req,res) =>{
+  req.logout();
+  res.redirect('/v1/auth/login')
+})
 router.post('/refresh-tokens', validate(authValidation.refreshTokens), authController.refreshTokens);
 router.post('/forgot-password', validate(authValidation.forgotPassword), authController.forgotPassword);
 router.post('/reset-password', validate(authValidation.resetPassword), authController.resetPassword);
