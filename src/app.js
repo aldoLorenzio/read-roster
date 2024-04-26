@@ -17,7 +17,6 @@ const auth = require('./middlewares/auth');
 const cookieParser = require('cookie-parser');
 
 const app = express();
-const cookieParser = require('cookie-parser');
 
 if (config.env !== 'test') {
   app.use(morgan.successHandler);
