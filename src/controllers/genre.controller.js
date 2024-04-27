@@ -23,11 +23,16 @@ const getGenres = catchAsync(async (req, res) => {
 
   const result = await genreService.queryGenres(filter, options);
 
-  res.status(httpStatus.OK).send({
-    status: httpStatus.OK,
-    message: 'Get Genres Success',
-    data: result,
-  });
+  // res.status(httpStatus.OK).send({
+  //   status: httpStatus.OK,
+  //   message: 'Get Genres Success',
+  //   data: result,
+  // });
+  
+
+  res.render('genre/getGenre.ejs', {
+    genres: result
+  })
 });
 
 const getGenre = catchAsync(async (req, res) => {

@@ -17,6 +17,8 @@ router.get('/login', (req, res) => {
   res.render('auth/login.ejs');
 });
 
+router.post('/login/postman', validate(authValidation.login), authController.loginPostman);
+
 router.get('/logout', (req, res) => {
   req.logout();
   res.redirect('/v1/auth/login');

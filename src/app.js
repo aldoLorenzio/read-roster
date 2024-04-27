@@ -34,6 +34,9 @@ app.use(helmet());
 // parse json request body
 app.use(express.json());
 
+// Use method-override middleware
+app.use(methodOverride('_method'));
+
 app.use((req, res, next) => {
   console.log('Received Cookies: ', req.cookies); // Ini akan mencetak semua cookies yang diterima
   next();
@@ -43,7 +46,7 @@ app.use((req, res, next) => {
 app.use(express.urlencoded({ extended: true }));
 
 // Serve static files
-app.use(express.static('public'));
+app.use(express.static('src/views'));
 
 // sanitize request data
 app.use(xss());

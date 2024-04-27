@@ -3,6 +3,46 @@
 
 <head>
   <style>
+    nav {
+      display: flex;
+      /* 1 */
+      justify-content: space-between;
+      /* 2 */
+      padding: 1rem 2rem;
+      /* 3 */
+      background: yellowgreen;
+      /* 4 */
+      color: white
+        /* 4 */
+    }
+
+    nav ul {
+      display: flex;
+      /* 5 */
+      list-style: none;
+      /* 6 */
+    }
+
+    nav li {
+      padding-left: 1rem;
+      /* 7! */
+    }
+
+    nav a {
+      text-decoration: none;
+      color: white;
+    }
+
+    nav a:hover {
+      text-decoration: underline;
+    }
+
+    .logout {
+      background-color: black;
+    }
+
+
+
     table {
       font-family: arial, sans-serif;
       border-collapse: collapse;
@@ -27,144 +67,262 @@
       padding: 0 15px;
     }
   </style>
+  <link rel="stylesheet" href="/assets/css/styles.min.css" />
 </head>
 
 <body>
-  <div class="dashboard-header">
-    <h2>Admin Dashboard</h2>
-    <button type="button"><a href="/v1/auth/logout">Logout</a></button>
+  <nav>
+    <h2><a href="v1/auth/login">Admin Dashboard</a> </h2>
+    <ul>
+      <li><a href="/v1/buku">Buku</a></li>
+      <li><a href="/v1/genre">Genre</a></li>
+      <li><a href="/v1/peminjaman">Peminjaman</a></li>
+    </ul>
+    <!-- <button class="logout" type="button"><a href="/v1/auth/logout">Logout</a></button> -->
+    <button type="submit" class="btn btn-primary w-10 py-2 fs-4 mb-4 rounded-2"><a
+        href="/v1/auth/logout">Logout</a></button>
+  </nav>
+
+  <div class="row">
+    <div class="col-lg-12 d-flex align-items-stretch">
+      <div class="card w-100">
+        <div class="card-body p-4">
+          <div class="table-responsive">
+            <table class="table text-nowrap mb-0 align-middle">
+              <thead class="text-dark fs-4">
+                <tr>
+                  <th class="border-bottom-0">
+                    <h3 class="fw-semibold mb-0" style="color: #5d87ff;">User Information</h3>
+                  </th>
+                </tr>
+                <tr>
+                  <th class="border-bottom-0">
+                    <h6 class="fw-semibold mb-0">ID</h6>
+                  </th>
+                  <th class="border-bottom-0">
+                    <h6 class="fw-semibold mb-0">Name</h6>
+                  </th>
+                  <th class="border-bottom-0">
+                    <h6 class="fw-semibold mb-0">Email</h6>
+                  </th>
+                  <th class="border-bottom-0">
+                    <h6 class="fw-semibold mb-0">Role</h6>
+                  </th>
+                  <th class="border-bottom-0">
+                    <h6 class="fw-semibold mb-0">Created At</h6>
+                  </th>
+                  <th class="border-bottom-0">
+                    <h6 class="fw-semibold mb-0">Updated At</h6>
+                  </th>
+                  <th class="border-bottom-0">
+                    <h6 class="fw-semibold mb-0">Email Verified</h6>
+                  </th>
+                  <th class="border-bottom-0">
+                    <h6 class="fw-semibold mb-0">Total Peminjaman</h6>
+                  </th>
+                </tr>
+              </thead>
+              <tbody>
+                <% users.forEach(function(user) { %>
+                  <tr>
+                    <td class="border-bottom-0">
+                      <h6 class="fw-semibold mb-0">
+                        <%= user.id %>
+                      </h6>
+                    </td>
+                    <td class="border-bottom-0">
+                      <h6 class="fw-semibold mb-1">
+                        <%= user.name %>
+                      </h6>
+                    </td>
+                    <td class="border-bottom-0">
+                      <%= user.email %>
+                    </td>
+                    <td class="border-bottom-0">
+                      <p class="mb-0 fw-normal">
+                        <%= user.role %>
+                      </p>
+                    </td>
+                    <td class="border-bottom-0">
+                      <%= user.createdAt ? user.createdAt.toISOString() : 'Not Available' %>
+                    </td>
+                    <td class="border-bottom-0">
+                      <%= user.updatedAt ? user.updatedAt.toISOString() : 'Not Available' %>
+                    </td>
+                    <td class="border-bottom-0">
+                      <div class="d-flex align-items-center gap-2">
+                        <span
+                          class="badge <%= user.isEmailVerified ? 'bg-success' : 'bg-danger' %> rounded-3 fw-semibold">
+                          <%= user.isEmailVerified ? 'Yes' : 'No' %>
+                        </span>
+                      </div>
+                    </td>
+                    <td class="border-bottom-0">
+                      <h6 class="fw-semibold mb-0 fs-4">
+                        <%= user.Peminjaman ? user.Peminjaman.length : 0 %> Buku
+                      </h6>
+                    </td>
+                  </tr>
+                  <% }) %>
+              </tbody>
+            </table>
+          </div>
+        </div>
+      </div>
+    </div>
   </div>
-  <div style="padding: 14px">
-    <table>
-      <tr>
-        <th>User Information</th>
-      </tr>
-      <tr>
-        <th>ID</th>
-        <th>Name</th>
-        <th>Email</th>
-        <th>Role</th>
-        <th>Created At</th>
-        <th>Updated At</th>
-        <th>Email Verified</th>
-        <th>Peminjaman</th>
-      </tr>
-      <% users.forEach(function(user) { %>
-        <tr>
-          <td>
-            <%= user.id %>
-          </td>
-          <td>
-            <%= user.name %>
-          </td>
-          <td>
-            <%= user.email %>
-          </td>
-          <td>
-            <%= user.role %>
-          </td>
-          <td>
-            <%= user.createdAt.toISOString() %>
-          </td>
-          <td>
-            <%= user.updateAt.toISOString() %>
-          </td>
-          <td>
-            <%= user.isEmailVerified ? 'Yes' : 'No' %>
-          </td>
-          <td>
-            <%= user.Peminjaman.length %> Buku
-          </td> <!-- Menampilkan jumlah peminjaman -->
-        </tr>
-        <% }) %>
-    </table>
   </div>
 
-  <div style="padding: 14px">
-    <table>
-      <tr>
-        <th>Book Information</th>
-        <th>
-          <button type="submit">Update Book</button>
-        </th>
-      </tr>
-      <tr>
-        <th>Title</th>
-        <th>Author</th>
-        <th>Year Published</th>
-        <th>Stock</th>
-        <th></th>
-      </tr>
-      <% bukus.forEach(function(buku) { %>
-        <tr>
-          <td>
-            <%= buku.title %>
-          </td>
-          <td>
-            <%= buku.author %>
-          </td>
-          <td>
-            <%= buku.year_published %>
-          </td>
-          <td>
-            <%= buku.stock %>
-          </td>
-          <td>
-            <button>edit</button>
-            <button>delete</button>
-          </td>
-        </tr>
-        <% }) %>
-    </table>
+  <div class="row">
+    <div class="col-lg-12 d-flex align-items-stretch">
+      <div class="card w-100">
+        <div class="card-body p-4">
+          <div class="table-responsive">
+            <table class="table text-nowrap mb-0 align-middle">
+              <thead class="text-dark fs-4">
+                <tr>
+                  <th class="border-bottom-0" colspan="4">
+                    <h3 class="fw-semibold mb-0" style="color: #5d87ff;">Book Information</h3>
+                  </th>
+                  <th class="border-bottom-0 text-end">
+                    <button type="submit" class="btn btn-primary">Update Book</button>
+                  </th>
+                </tr>
+                <tr>
+                  <th class="border-bottom-0">
+                    <h6 class="fw-semibold mb-0">Title</h6>
+                  </th>
+                  <th class="border-bottom-0">
+                    <h6 class="fw-semibold mb-0">Author</h6>
+                  </th>
+                  <th class="border-bottom-0">
+                    <h6 class="fw-semibold mb-0">Year Published</h6>
+                  </th>
+                  <th class="border-bottom-0">
+                    <h6 class="fw-semibold mb-0">Stock</h6>
+                  </th>
+                  <th class="border-bottom-0">
+                    <h6 class="fw-semibold mb-0">Actions</h6>
+                  </th>
+                </tr>
+              </thead>
+              <tbody>
+                <% bukus.forEach(function(buku) { %>
+                  <tr>
+                    <td class="border-bottom-0">
+                      <%= buku.title %>
+                    </td>
+                    <td class="border-bottom-0">
+                      <%= buku.author %>
+                    </td>
+                    <td class="border-bottom-0">
+                      <%= buku.year_published %>
+                    </td>
+                    <td class="border-bottom-0">
+                      <%= buku.stock %>
+                    </td>
+                    <td class="border-bottom-0">
+                      <button class="btn btn-info">Edit</button>
+                      <button class="btn btn-danger">Delete</button>
+                    </td>
+                  </tr>
+                  <% }) %>
+              </tbody>
+            </table>
+          </div>
+        </div>
+      </div>
+    </div>
   </div>
 
-  <div style="padding: 14px">
-    <table>
-      <th>Loan Information</th>
-      <tr>
-        <th>ID</th>
-        <th>Book Title</th>
-        <th>Loan User Name</th>
-        <th>Date Borrow</th>
-        <th>Date Due</th>
-        <th>Actions</th>
-        <th>Date Returned</th>
-      </tr>
-      <% peminjamans.forEach(peminjaman=> { %>
-        <tr>
-          <td>
-            <%= peminjaman.id %>
-          </td>
-          <td>
-            <%= peminjaman.Buku.title %>
-          </td>
-          <td>
-            <%= peminjaman.User.name %>
-          </td>
-          <td>
-            <%= peminjaman.date_borrow %>
-          </td>
-          <td>
-            <%= peminjaman.date_due %>
-          </td>
-          <td>
-            <% if (peminjaman.date_returned==='Belum Dikembalikan' ) { %>
-              <form action="/v1/peminjaman/<%= peminjaman.id %>?_method=PATCH" method="POST">
-                <!-- Gunakan metode POST, tetapi tambahkan _method=PATCH sebagai parameter query -->
-                <input type="date" name="date_returned" required>
-                <button type="submit">Update Return</button>
-              </form>
-              <% } else { %>
-          <td>
-            <%= peminjaman.date_returned %>
-          </td>
-          <% } %>
-            </td>
-        </tr>
-        <% }) %>
-    </table>
+  <div class="row">
+    <div class="col-lg-12 d-flex align-items-stretch">
+      <div class="card w-100">
+        <div class="card-body p-4">
+          <div class="table-responsive">
+            <table class="table text-nowrap mb-0 align-middle">
+              <thead class="text-dark fs-4">
+                <tr>
+                  <th class="border-bottom-0" colspan="7">
+                    <h3 class="fw-semibold mb-0" style="color: #5d87ff;">Loan Information</h3>
+                  </th>
+                </tr>
+                <tr>
+                  <th class="border-bottom-0">
+                    <h6 class="fw-semibold mb-0">ID</h6>
+                  </th>
+                  <th class="border-bottom-0">
+                    <h6 class="fw-semibold mb-0">Book Title</h6>
+                  </th>
+                  <th class="border-bottom-0">
+                    <h6 class="fw-semibold mb-0">Loan User Name</h6>
+                  </th>
+                  <th class="border-bottom-0">
+                    <h6 class="fw-semibold mb-0">Date Borrow</h6>
+                  </th>
+                  <th class="border-bottom-0">
+                    <h6 class="fw-semibold mb-0">Date Due</h6>
+                  </th>
+                  <th class="border-bottom-0">
+                    <h6 class="fw-semibold mb-0">Actions</h6>
+                  </th>
+                  <th class="border-bottom-0">
+                    <h6 class="fw-semibold mb-0">Date Returned</h6>
+                  </th>
+                </tr>
+              </thead>
+              <tbody>
+                <% peminjamans.forEach(peminjaman=> { %>
+                  <tr>
+                    <td class="border-bottom-0">
+                      <%= peminjaman.id %>
+                    </td>
+                    <td class="border-bottom-0">
+                      <%= peminjaman.Buku.title %>
+                    </td>
+                    <td class="border-bottom-0">
+                      <%= peminjaman.User.name %>
+                    </td>
+                    <td class="border-bottom-0">
+                      <%= peminjaman.date_borrow %>
+                    </td>
+                    <td class="border-bottom-0">
+                      <%= peminjaman.date_due %>
+                    </td>
+                    <td class="border-bottom-0">
+                      <% if (peminjaman.date_returned==='Belum Dikembalikan' ) { %>
+                        <form action="/v1/peminjaman/<%= peminjaman.id %>?_method=PATCH" method="POST">
+                          <input type="date" name="date_returned" required
+                            style="padding: .5rem .75rem; border: 1px solid #ced4da; border-radius: .25rem; font-size: 1rem; line-height: normal; height: 40px;">
+                          <button type="submit" class="btn btn-info">Update Return</button>
+                        </form>
+                        <% } %>
+                    </td>
+                    <td class="border-bottom-0">
+                      <% if (peminjaman.date_returned !=='Belum Dikembalikan' ) { %>
+                        <%= peminjaman.date_returned %>
+                          <% } else { %>
+                            Not Returned
+                            <% } %>
+                    </td>
+                  </tr>
+                  <% }) %>
+              </tbody>
+            </table>
+          </div>
+        </div>
+      </div>
+    </div>
   </div>
 
+
+  <script src="/assets/libs/jquery/dist/jquery.min.js"></script>
+  <script src="/assets/libs/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
+  <script src="/assets/js/sidebarmenu.js"></script>
+  <script src="/assets/js/app.min.js"></script>
+  <script src="/assets/libs/apexcharts/dist/apexcharts.min.js"></script>
+  <script src="/assets/libs/simplebar/dist/simplebar.js"></script>
+  <script src="/assets/js/dashboard.js"></script>
 </body>
 
 </html>
