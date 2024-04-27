@@ -20,6 +20,10 @@ router
   .get(bukuController.createView);
 
 router
+  .route('/edit/:bukuId')
+  .get(bukuController.editView)
+
+router
   .route('/:bukuId')
   .get(auth('admin'), validate(bukuValidation.getBuku), bukuController.getBuku)
   .patch(auth('admin'), validate(bukuValidation.updateBuku), bukuController.updateBuku)
