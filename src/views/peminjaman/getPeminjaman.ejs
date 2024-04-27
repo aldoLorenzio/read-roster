@@ -59,6 +59,8 @@
       align-items: center;
       padding: 0 15px;
     }
+
+
     </style>
 </head>
 <body>
@@ -83,20 +85,17 @@
           </tr>
           <% peminjamans.forEach(function(e) { %>
             <tr>
-              <td>
-                <%= e.User.name %>
-              </td>
+              <td><%= e.User.name %></td>
               <td><%= e.Buku.title %></td>
-              <td>
-                <%= e.date_borrow %>
-              </td>
-              <td>
-                <%= e.date_due %>
-              </td>
+              <td><%= e.date_borrow %></td>
+              <td><%= e.date_due %></td>
               <td><%= e.date_returned %></td>
               <td>
-                <button>edit</button>
-                <button>delete</button>
+                <% if (e.date_returned === "Belum Dikembalikan") { %>
+                  <a href="/v1/peminjaman/edit/<%= e.id %>"><button>edit</button></a>
+                <% } else { %>
+                 <button>delete</button>
+                 <% } %>
               </td>
             </tr>
             <% }) %>

@@ -12,6 +12,10 @@ router
   .get(auth('manageUsers'), validate(peminjamanValidation.getPeminjamans), peminjamanController.getPeminjamans);
 
 router
+  .route('/edit/:peminjamanId')
+  .get(auth('admin'), peminjamanController.editView);
+
+router
   .route('/:peminjamanId')
   .get(auth('admin'), validate(peminjamanValidation.getPeminjaman), peminjamanController.getPeminjaman)
   .patch(auth('admin'), validate(peminjamanValidation.updatePeminjaman), peminjamanController.updatePeminjaman)

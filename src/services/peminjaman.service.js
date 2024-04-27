@@ -67,6 +67,10 @@ const getPeminjamanById = async (id) => {
     where: {
       id,
     },
+    include:{
+      User:true,
+      Buku:true,
+    },
   });
 };
 

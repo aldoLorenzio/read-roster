@@ -7,11 +7,16 @@ const { bukuService } = require('../services');
 const createBuku = catchAsync(async (req, res) => {
   const buku = await bukuService.createBuku(req.body);
 
-  res.status(httpStatus.CREATED).send({
-    status: httpStatus.CREATED,
+  // res.status(httpStatus.CREATED).send({
+  //   status: httpStatus.CREATED,
+  //   message: 'Create Buku Success',
+  //   data: buku,
+  // });
+
+  res.render('successView.ejs', {
     message: 'Create Buku Success',
-    data: buku,
-  });
+    redirect: "/v1/buku"
+  })
 });
 
 const getBukus = catchAsync(async (req, res) => {
@@ -59,6 +64,14 @@ const createView = catchAsync(async(req,res) => {
   res.render('buku/createBuku.ejs')
 })
 
+const editView = catchAsync(async(req,res) => {
+  const buku = await bukuService.getBukuById(req.params.bukuId);
+
+  res.render('buku/editBuku.ejs',{
+    bukus: buku
+   })
+})
+
 const updateBuku = catchAsync(async (req, res) => {
   const buku = await bukuService.updateBukuById(req.params.bukuId, req.body);
 
@@ -72,11 +85,16 @@ const updateBuku = catchAsync(async (req, res) => {
 const deleteBuku = catchAsync(async (req, res) => {
   await bukuService.deleteBukuById(req.params.bukuId);
 
-  res.status(httpStatus.OK).send({
-    status: httpStatus.OK,
+  // res.status(httpStatus.OK).send({
+  //   status: httpStatus.OK,
+  //   message: 'Delete Buku Success',
+  //   data: null,
+  // });
+
+  res.render('successView.ejs', {
     message: 'Delete Buku Success',
-    data: null,
-  });
+    redirect: "/v1/buku"
+  })
 });
 
 module.exports = {
@@ -87,4 +105,5 @@ module.exports = {
   deleteBuku,
   detailBuku,
   createView,
+  editView,
 };

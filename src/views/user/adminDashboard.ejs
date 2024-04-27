@@ -118,44 +118,6 @@
         <% }) %>
     </table>
   </div>
-
-  <div style="padding: 14px">
-    <table>
-      <tr>
-        <th>Book Information</th>
-        <th>
-          <button>add new book</button>
-        </th>
-      </tr>
-      <tr>
-        <th>Title</th>
-        <th>Author</th>
-        <th>Year Published</th>
-        <th>Stock</th>
-        <th></th>
-      </tr>
-      <% bukus.forEach(function(buku) { %>
-        <tr>
-          <td>
-            <%= buku.title %>
-          </td>
-          <td>
-            <%= buku.author %>
-          </td>
-          <td>
-            <%= buku.year_published %>
-          </td>
-          <td>
-            <%= buku.stock %>
-          </td>
-          <td>
-            <button>edit</button>
-            <button>delete</button>
-          </td>
-        </tr>
-        <% }) %>
-    </table>
-  </div>
 </body>
 
 </html>
