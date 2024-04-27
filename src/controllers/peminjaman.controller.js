@@ -16,7 +16,7 @@ const createPeminjaman = catchAsync(async (req, res) => {
   };
 
   const peminjaman = await peminjamanService.createPeminjaman(peminjamanBody);
-
+  console.log('peminjamannn', peminjaman);
   res.status(httpStatus.CREATED).send({
     status: httpStatus.CREATED,
     message: 'Create Peminjaman Success',
@@ -55,12 +55,13 @@ const getPeminjaman = catchAsync(async (req, res) => {
 
 const updatePeminjaman = catchAsync(async (req, res) => {
   const peminjaman = await peminjamanService.updatePeminjamanById(req.params.peminjamanId, req.body);
-
-  res.status(httpStatus.OK).send({
-    status: httpStatus.OK,
-    message: 'Update Peminjaman Success',
-    data: peminjaman,
-  });
+  console.log('updatePeminjaman peminjaman', peminjaman);
+  res.redirect('/v1/auth/login');
+  // res.status(httpStatus.OK).send({
+  //   status: httpStatus.OK,
+  //   message: 'Update Peminjaman Success',
+  //   data: peminjaman,
+  // });
 });
 
 const deletePeminjaman = catchAsync(async (req, res) => {

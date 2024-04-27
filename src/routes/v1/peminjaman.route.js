@@ -14,7 +14,7 @@ router
 router
   .route('/:peminjamanId')
   .get(auth('admin'), validate(peminjamanValidation.getPeminjaman), peminjamanController.getPeminjaman)
-  .patch(auth('admin'), validate(peminjamanValidation.updatePeminjaman), peminjamanController.updatePeminjaman)
+  .post(auth('admin'), validate(peminjamanValidation.updatePeminjaman), peminjamanController.updatePeminjaman)
   .delete(auth('admin'), validate(peminjamanValidation.deletePeminjaman), peminjamanController.deletePeminjaman);
 
 module.exports = router;

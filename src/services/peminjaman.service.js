@@ -11,17 +11,8 @@ const createPeminjaman = async (peminjamanBody) => {
     },
   });
 
-  const user = await prisma.user.findUnique({
-    where: {
-      id: peminjamanBody.userId,
-    },
-  });
-
-  if (!buku) throw new ApiError(httpStatus.NOT_FOUND, 'Buku ID not found');
-  if (!user) throw new ApiError(httpStatus.NOT_FOUND, 'User ID not found');
-
-  if (buku.stock < 1) {
-    throw new ApiError(httpStatus.BAD_REQUEST, 'Stock Buku Habis');
+  if (!buku || buku.stock < 1) {
+    throw new ApiError(httpStatus.BAD_REQUEST, 'No available stock for the book or book not found');
   }
 
   await prisma.buku.update({
@@ -34,31 +25,29 @@ const createPeminjaman = async (peminjamanBody) => {
   });
 
   return prisma.peminjaman.create({
-    data: peminjamanBody,
+    data: {
+      ...peminjamanBody,
+      Buku: { connect: { id: peminjamanBody.bukuId } }, // Pastikan relasi dihandle dengan benar
+    },
   });
 };
 
-const queryPeminjamans = async (filter, options) => {
+const queryPeminjamans = async (filter = {}, options = {}) => {
   const { date_borrow, date_due } = filter;
-  const { take, skip } = options;
-  const peminjamans = await prisma.peminjaman.findMany({
+  const { take = 10, skip = 0 } = options;
+
+  return await prisma.peminjaman.findMany({
     include: {
-      buku: true, // Asumsi bahwa ada relasi bernama 'buku' di model 'peminjaman'
+      Buku: true,
+      User: true, // Memastikan data user di-include
     },
     where: {
-      date_borrow: {
-        contains: date_borrow,
-        mode: 'insensitive',
-      },
-      date_due: {
-        contains: date_due,
-        mode: 'insensitive',
-      },
+      ...(date_borrow && { date_borrow: { contains: date_borrow, mode: 'insensitive' } }),
+      ...(date_due && { date_due: { contains: date_due, mode: 'insensitive' } }),
     },
-    take: take && parseInt(take),
-    skip: skip && parseInt(skip),
+    take: parseInt(take),
+    skip: parseInt(skip),
   });
-  return peminjamans;
 };
 
 const getPeminjamanById = async (id) => {

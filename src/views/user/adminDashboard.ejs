@@ -85,7 +85,7 @@
       <tr>
         <th>Book Information</th>
         <th>
-          <button>add new book</button>
+          <button type="submit">Update Book</button>
         </th>
       </tr>
       <tr>
@@ -117,6 +117,54 @@
         <% }) %>
     </table>
   </div>
+
+  <div style="padding: 14px">
+    <table>
+      <th>Loan Information</th>
+      <tr>
+        <th>ID</th>
+        <th>Book Title</th>
+        <th>Loan User Name</th>
+        <th>Date Borrow</th>
+        <th>Date Due</th>
+        <th>Actions</th>
+        <th>Date Returned</th>
+      </tr>
+      <% peminjamans.forEach(peminjaman=> { %>
+        <tr>
+          <td>
+            <%= peminjaman.id %>
+          </td>
+          <td>
+            <%= peminjaman.Buku.title %>
+          </td>
+          <td>
+            <%= peminjaman.User.name %>
+          </td>
+          <td>
+            <%= peminjaman.date_borrow %>
+          </td>
+          <td>
+            <%= peminjaman.date_due %>
+          </td>
+          <td>
+            <% if (peminjaman.date_returned==='Belum Dikembalikan' ) { %>
+              <form action="/v1/peminjaman/<%= peminjaman.id %>?_method=PATCH" method="POST">
+                <!-- Gunakan metode POST, tetapi tambahkan _method=PATCH sebagai parameter query -->
+                <input type="date" name="date_returned" required>
+                <button type="submit">Update Return</button>
+              </form>
+              <% } else { %>
+          <td>
+            <%= peminjaman.date_returned %>
+          </td>
+          <% } %>
+            </td>
+        </tr>
+        <% }) %>
+    </table>
+  </div>
+
 </body>
 
 </html>

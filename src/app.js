@@ -6,6 +6,8 @@ const cors = require('cors');
 const passport = require('passport');
 const httpStatus = require('http-status');
 const path = require('path');
+const cookieParser = require('cookie-parser');
+const methodOverride = require('method-override');
 const config = require('./config/config');
 const morgan = require('./config/morgan');
 const { jwtStrategy } = require('./config/passport');
@@ -14,7 +16,6 @@ const routes = require('./routes/v1');
 const { errorConverter, errorHandler } = require('./middlewares/error');
 const ApiError = require('./utils/ApiError');
 const auth = require('./middlewares/auth');
-const cookieParser = require('cookie-parser');
 
 const app = express();
 
@@ -38,7 +39,6 @@ app.use((req, res, next) => {
   next();
 });
 
-
 // parse urlencoded request body
 app.use(express.urlencoded({ extended: true }));
 
@@ -57,7 +57,7 @@ app.options('*', cors());
 
 app.use(cookieParser());
 // jwt authentication
-app.use(cookieParser())
+app.use(cookieParser());
 app.use(passport.initialize());
 passport.use('jwt', jwtStrategy);
 
@@ -68,7 +68,7 @@ if (config.env === 'production') {
 
 // v1 api routes
 app.use('/v1', routes);
-
+app.use(methodOverride('_method'));
 // send back a 404 error for any unknown api request
 // app.use((req, res, next) => {
 //   next(new ApiError(httpStatus.NOT_FOUND, 'Not found'));
