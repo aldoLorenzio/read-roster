@@ -1,47 +1,10 @@
 <!DOCTYPE html>
 <html lang="en">
+<!DOCTYPE html>
+<html>
+
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Get Buku</title>
-    <style>
-              nav {
-      display: flex; /* 1 */
-      justify-content: space-between; /* 2 */
-      padding: 1rem 2rem; /* 3 */
-      background: cornflowerblue; /* 4 */
-      color: white /* 4 */
-    }
-
-    nav ul {
-    display: flex; /* 5 */
-    list-style: none; /* 6 */
-    }
-
-    nav li {
-    padding-left: 1rem; /* 7! */
-    }
-    nav a {
-    text-decoration: none;
-    color: white;
-    }
-
-    nav a:hover {
-        text-decoration: underline;
-    }
-
-    .logout{
-      background-color: black;
-    }
-
-
-
-    table {
-      font-family: arial, sans-serif;
-      border-collapse: collapse;
-      width: 100%;
-    }
-
+  <style>
     td,
     th {
       border: 1px solid #dddddd;
@@ -52,64 +15,109 @@
     tr:nth-child(even) {
       background-color: #dddddd;
     }
-
-    .dashboard-header {
-      display: flex;
-      justify-content: space-between;
-      align-items: center;
-      padding: 0 15px;
-    }
-    </style>
+  </style>
+  <link rel="shortcut icon" type="image/png" href="/assets/images/logos/favicon.png" />
+  <link rel="stylesheet" href="/assets/css/styles.min.css" />
 </head>
+
 <body>
-    <nav>
-        <h2>Admin Dashboard</h2>
-        <ul>
-          <li><a href="/v1/buku">Buku</a></li>
-          <li><a href="/v1/genre">Genre</a></li>
-          <li><a href="/v1/peminjaman">Peminjaman</a></li>
+  <nav class="navbar navbar-expand-lg navbar-light bg-light">
+    <div class="container-fluid">
+      <div class="collapse navbar-collapse" id="navbarNav">
+        <ul class="navbar-nav me-auto mb-2 mb-lg-0">
+          <li class="nav-item">
+            <!-- <a class="nav-link" href="/v1/auth/login">Admin Dashboard</a> -->
+          </li>
+          <li class="nav-item">
+            <a class="nav-link" href="/v1/buku">Buku</a>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link" href="/v1/genre">Genre</a>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link" href="/v1/peminjaman">Peminjaman</a>
+          </li>
         </ul>
-        <button class="logout" type="button"><a href="/v1/auth/logout">Logout</a></button>
-      </nav>
-
-      <div style="padding: 14px">
-        <table>
-          <tr>
-            <th>Book Information</th>
-            <th>
-              <a href="/v1/buku/create"><button>add new book</button></a>
-            </th>
-          </tr>
-          <tr>
-            <th>Title</th>
-            <th>Author</th>
-            <th>Genre</th>
-            <th>Stock</th>
-            <th></th>
-          </tr>
-          <% bukus.forEach(function(buku) { %>
-            <tr>
-              <td>
-                <%= buku.title %>
-              </td>
-              <td>
-                <%= buku.author %>
-              </td>
-              <td>
-                <%= buku.genre.genre %>
-              </td>
-              <td>
-                <%= buku.stock %>
-              </td>
-              <td>
-                <a href="/v1/buku/detail/<%= buku.id %>"><button>Detail</button></a>
-                <button>edit</button>
-                <form action="/v1/buku/<%= buku.id %>?_method=DELETE" method="post"><button type="submit">Delete</button></form>
-              </td>
-            </tr>
-            <% }) %>
-        </table>
+        <form class="d-flex" action="/v1/auth/logout" method="POST">
+          <button type="submit" class="btn btn-primary py-2 px-4 fs-6 rounded-2">Logout</button>
+        </form>
       </div>
-</body>
-</html>
+    </div>
+  </nav>
 
+  <div class="row">
+    <div class="col-lg-12 d-flex align-items-stretch">
+      <div class="card w-100">
+        <div class="card-body p-4">
+          <div class="table-responsive">
+            <table class="table text-nowrap mb-0 align-middle">
+              <thead class="text-dark fs-4">
+                <tr>
+                  <th class="border-bottom-0" colspan="5">
+                    <h3 class="fw-semibold mb-0" style="color: #5d87ff;">Book Information</h3>
+                  </th>
+                  <th class="border-bottom-0 text-end">
+                    <a href="/v1/buku/create" class="btn btn-primary">Add New Book</a>
+                  </th>
+                </tr>
+                <tr>
+                  <th class="border-bottom-0">
+                    <h6 class="fw-semibold mb-0">Title</h6>
+                  </th>
+                  <th class="border-bottom-0">
+                    <h6 class="fw-semibold mb-0">Author</h6>
+                  </th>
+                  <th class="border-bottom-0">
+                    <h6 class="fw-semibold mb-0">Genre</h6>
+                  </th>
+                  <th class="border-bottom-0">
+                    <h6 class="fw-semibold mb-0">Stock</h6>
+                  </th>
+                  <th class="border-bottom-0" colspan="2">
+                    <h6 class="fw-semibold mb-0">Actions</h6>
+                  </th>
+                </tr>
+              </thead>
+              <tbody>
+                <% bukus.forEach(function(buku) { %>
+                  <tr>
+                    <td class="border-bottom-0">
+                      <%= buku.title %>
+                    </td>
+                    <td class="border-bottom-0">
+                      <%= buku.author %>
+                    </td>
+                    <td class="border-bottom-0">
+                      <%= buku.genre.genre %>
+                    </td>
+                    <td class="border-bottom-0">
+                      <%= buku.stock %>
+                    </td>
+                    <td class="border-bottom-0">
+                      <a href="/v1/buku/detail/<%= buku.id %>" class="btn btn-info">Detail</a>
+                    </td>
+                    <td class="border-bottom-0">
+                      <form action="/v1/buku/<%= buku.id %>?_method=DELETE" method="post">
+                        <button type="submit" class="btn btn-danger">Delete</button>
+                      </form>
+                    </td>
+                  </tr>
+                  <% }) %>
+              </tbody>
+            </table>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <script src="/assets/libs/jquery/dist/jquery.min.js"></script>
+  <script src="/assets/libs/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
+  <script src="/assets/js/sidebarmenu.js"></script>
+  <script src="/assets/js/app.min.js"></script>
+  <script src="/assets/libs/apexcharts/dist/apexcharts.min.js"></script>
+  <script src="/assets/libs/simplebar/dist/simplebar.js"></script>
+  <script src="/assets/js/dashboard.js"></script>
+</body>
+
+</html>

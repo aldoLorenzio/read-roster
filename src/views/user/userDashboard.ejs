@@ -1,7 +1,12 @@
 <!DOCTYPE html>
-<html>
+<html lang="en">
 
 <head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>User Dashboard</title>
+  <link rel="shortcut icon" type="image/png" href="/assets/images/logos/favicon.png" />
+  <link rel="stylesheet" href="/assets/css/styles.min.css">
   <style>
     table {
       font-family: arial, sans-serif;
@@ -30,16 +35,17 @@
 </head>
 
 <body>
-  <table>
-    <div class="dashboard-header">
+  <div class="container mt-5">
+    <!-- User Greeting and Logout Button -->
+    <div class="dashboard-header mb-4">
       <h1>Welcome, <%= user.name %>!</h1>
-      <button type="button"><a href="/v1/auth/logout">Logout</a></button>
+      <a href="/v1/auth/logout" class="btn btn-primary">Logout</a>
     </div>
-    <div>
 
-    </div>
-    <div style="display: flex;">
-      <div style="padding: 14px; flex: 1;">
+    <!-- User Details -->
+    <div class="row">
+      <div class="col-md-6">
+        <h5>User Details</h5>
         <p>Email: <%= user.email %>
         </p>
         <p>Role: <%= user.role %>
@@ -53,85 +59,71 @@
         <p>Email Verified: <%= user.isEmailVerified ? 'Yes' : 'No' %>
         </p>
       </div>
-      <div style="padding: 14px; flex: 1;">
+
+      <!-- Borrow Book Form -->
+      <div class="col-md-6">
         <h5>Form Borrow a Book</h5>
         <form id="borrowForm" action="/v1/peminjaman" method="post">
-          <label for="bukuId">Book Name:</label>
-          <br>
-          <select id="bukuId" name="bukuId" required>
-            <% availableBooks.forEach(function(book) { %>
-              <option value="<%= book.id %>">
-                <%= book.title %>
-              </option>
-              <% }) %>
-          </select>
-          <br>
-          <label for="date_borrow">Date Borrow:</label><br>
-          <input type="date" id="date_borrow" name="date_borrow" required><br>
-          <label for="date_due">Date Due:</label><br>
-          <input type="date" id="date_due" name="date_due" required><br><br>
-          <input type="submit" value="Submit">
+          <div class="form-group">
+            <label for="bukuId">Book Name:</label>
+            <select id="bukuId" name="bukuId" class="form-control" required>
+              <% availableBooks.forEach(function(book) { %>
+                <option value="<%= book.id %>">
+                  <%= book.title %>
+                </option>
+                <% }) %>
+            </select>
+          </div>
+          <div class="form-group">
+            <label for="date_borrow">Date Borrow:</label>
+            <input type="date" id="date_borrow" name="date_borrow" class="form-control" required>
+          </div>
+          <div class="form-group">
+            <label for="date_due">Date Due:</label>
+            <input type="date" id="date_due" name="date_due" class="form-control" required>
+          </div>
+          <button type="submit" class="btn btn-success mt-3">Submit</button>
         </form>
-
       </div>
     </div>
 
-
-    <div style="padding: 14px">
-      <table>
-        <tr>
-          <th>Loan Information</th>
-        </tr>
-        <tr>
-          <!-- <th>ID</th> -->
-          <th>Book Name</th>
-          <th>Date Borrow</th>
-          <th>Date Due</th>
-          <th>Date Returned</th>
-        </tr>
-        <% peminjamans.forEach(function(peminjaman) { %>
+    <!-- Loan Information Table -->
+    <div class="mt-5">
+      <h5>Loan Information</h5>
+      <table class="table">
+        <thead>
           <tr>
-            <!-- <td>
-              <%= peminjaman.id %>
-            </td> -->
-            <td>
-              <%=  peminjaman.Buku.title  %>
-            </td>
-            <td>
-              <%= new Date(peminjaman.date_borrow).toLocaleDateString() %>
-            </td>
-            <td>
-              <%= new Date(peminjaman.date_due).toLocaleDateString() %>
-            </td>
-            <td>
-              <%= peminjaman.date_returned ? new Date(peminjaman.date_returned).toLocaleDateString()
-                : 'Not returned yet' %>
-            </td>
+            <th>Book Name</th>
+            <th>Date Borrow</th>
+            <th>Date Due</th>
+            <th>Date Returned</th>
           </tr>
-          <% }) %>
+        </thead>
+        <tbody>
+          <% peminjamans.forEach(function(peminjaman) { %>
+            <tr>
+              <td>
+                <%= peminjaman.Buku.title %>
+              </td>
+              <td>
+                <%= new Date(peminjaman.date_borrow).toLocaleDateString() %>
+              </td>
+              <td>
+                <%= new Date(peminjaman.date_due).toLocaleDateString() %>
+              </td>
+              <td>
+                <%= peminjaman.date_returned ? new Date(peminjaman.date_returned).toLocaleDateString()
+                  : 'Not returned yet' %>
+              </td>
+            </tr>
+            <% }) %>
+        </tbody>
       </table>
     </div>
-  </table>
-  <!-- JavaScript should be placed here right before the closing body tag -->
-  <script>
-    document.getElementById('borrowForm').addEventListener('submit', function (event) {
-      event.preventDefault();
-      const formData = new FormData(this);
-      const data = {};
-      formData.forEach((value, key) => { data[key] = value; });
-      fetch('/v1/peminjaman', {
-        method: 'POST',
-        headers: {
-          'Content-Type': 'application/json',
-          'Authorization': `Bearer ${localStorage.getItem('token')}`
-        },
-        body: JSON.stringify(data)
-      })
-        .then(response => response.json())
-        .then(data => console.log(data))
-        .catch(error => console.error('Error:', error));
-    });
-  </script>
-</body>
+  </div>
 
-</html>
+  <!-- Bootstrap Bundle with Popper -->
+  <script src="/assets/libs/jquery/dist/jquery.min.js"></script>
+  <script src="/assets/libs/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
+  <script src="/assets/js/sidebarmenu.js"></script>
+  <script src="/assets/js/app.min

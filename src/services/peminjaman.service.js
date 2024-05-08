@@ -27,7 +27,7 @@ const createPeminjaman = async (peminjamanBody) => {
   return prisma.peminjaman.create({
     data: {
       ...peminjamanBody,
-      Buku: { connect: { id: peminjamanBody.bukuId } }, // Pastikan relasi dihandle dengan benar
+      bukuId: peminjamanBody.bukuId, // Use bukuId directly without a connect clause
     },
   });
 };
@@ -55,11 +55,16 @@ const getPeminjamanById = async (id) => {
     where: {
       id,
     },
+    include: {
+      User: true,
+      Buku: true,
+    },
   });
 };
 
 const updatePeminjamanById = async (peminjamanId, updateBody) => {
   const peminjaman = await getPeminjamanById(peminjamanId);
+  // console.log('updatePeminjamanById', updatePeminjamanById);
   if (!peminjaman) throw new ApiError(httpStatus.NOT_FOUND, 'Peminjaman tidak ditemukan');
 
   const updatePeminjaman = await prisma.peminjaman.update({
@@ -68,9 +73,10 @@ const updatePeminjamanById = async (peminjamanId, updateBody) => {
     },
     data: updateBody,
   });
+  // console.log('updatePeminjaman', updatePeminjaman);
 
   const buku = await getBukuById(updatePeminjaman.bukuId);
-
+  // console.log('bukuuuu', buku);
   if (updateBody.date_returned) {
     await prisma.buku.update({
       where: {
@@ -82,9 +88,9 @@ const updatePeminjamanById = async (peminjamanId, updateBody) => {
     });
   }
 
-  console.log(`Date_returned ${updateBody.date_returned}`);
-  console.log(`BukuId: ${updatePeminjaman.bukuId}`);
-  console.log(`BukuStock: ${buku.stock}`);
+  // console.log(`Date_returned ${updateBody.date_returned}`);
+  // console.log(`BukuId: ${updatePeminjaman.bukuId}`);
+  // console.log(`BukuStock: ${buku.stock}`);
   return updatePeminjaman;
 };
 

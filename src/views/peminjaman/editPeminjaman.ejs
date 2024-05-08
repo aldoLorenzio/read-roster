@@ -4,7 +4,7 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Get Genre</title>
+  <title>Create Book</title>
   <style>
     nav {
       display: flex;
@@ -43,32 +43,6 @@
     .logout {
       background-color: black;
     }
-
-
-
-    table {
-      font-family: arial, sans-serif;
-      border-collapse: collapse;
-      width: 100%;
-    }
-
-    td,
-    th {
-      border: 1px solid #dddddd;
-      text-align: left;
-      padding: 8px;
-    }
-
-    tr:nth-child(even) {
-      background-color: #dddddd;
-    }
-
-    .dashboard-header {
-      display: flex;
-      justify-content: space-between;
-      align-items: center;
-      padding: 0 15px;
-    }
   </style>
 </head>
 
@@ -83,33 +57,42 @@
     <button class="logout" type="button"><a href="/v1/auth/logout">Logout</a></button>
   </nav>
 
-  <h2>
-    <%= bukus.title %>
-  </h2>
-  <table>
-    <tr>
-      <th>Nama</th>
-      <th>Date_borrowed</th>
-      <th>Date_due</th>
-      <th>Date_Returned</th>
-    </tr>
-    <% bukus.Peminjaman.forEach(function(e){ %>
-      <tr>
-        <td>
-          <%= e.userId %>
-        </td>
-        <td>
-          <%= e.date_borrow %>
-        </td>
-        <td>
-          <%= e.date_due %>
-        </td>
-        <td>
-          <%= e.date_returned %>
-        </td>
-      </tr>
-      <% }) %>
-  </table>
+  <div>
+    <h1>Confirm Pengembalian</h1>
+    <div style="padding: 14px">
+      <table>
+        <tr>
+          <th>Nama</th>
+          <th>title</th>
+          <th>date_borrow</th>
+          <th>date_due</th>
+          <th>date_returned</th>
+        </tr>
+        <tr>
+          <td>
+            <%= peminjamans.User.name %>
+          </td>
+          <td>
+            <%= peminjamans.Buku.title %>
+          </td>
+          <td>
+            <%= peminjamans.date_borrow %>
+          </td>
+          <td>
+            <%= peminjamans.date_due %>
+          </td>
+          <td>
+            <%= peminjamans.date_returned %>
+          </td>
+        </tr>
+      </table>
+    </div>
+    <form action="/v1/peminjaman/<%= peminjamans.id %>?_method=PATCH" method="POST">
+      <label for="date_returned">Date returned: </label>
+      <input type="date" name="date_returned" id="date_returned" required> <br /> <br />
+      <button type="submit">Confirm</button>
+    </form>
+  </div>
 </body>
 
 </html>

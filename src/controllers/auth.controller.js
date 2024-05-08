@@ -46,7 +46,7 @@ const login = catchAsync(async (req, res) => {
     if (user.role === 'admin') {
       const users = await userService.queryUsers({}, {});
       const bukus = await bukuService.queryBukus({}, {});
-      const peminjamans = await peminjamanService.queryPeminjamans({}, {})
+      const peminjamans = await peminjamanService.queryPeminjamans({}, {});
       // console.log('peminjamans admin', peminjamans);
       return res.render('user/adminDashboard', { user, users, bukus, peminjamans });
     }
@@ -61,12 +61,12 @@ const login = catchAsync(async (req, res) => {
   }
 });
 
-const loginPostman = catchAsync(async (req,res) =>{
+const loginPostman = catchAsync(async (req, res) => {
   const { email, password } = req.body;
   const user = await authService.loginUserWithEmailAndPassword(email, password);
   const tokens = await tokenService.generateAuthTokens(user);
   res.send({ user, tokens });
-})
+});
 
 const logout = catchAsync(async (req, res) => {
   await authService.logout(req.body.refreshToken);

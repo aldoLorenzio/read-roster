@@ -3,52 +3,6 @@
 
 <head>
   <style>
-    nav {
-      display: flex;
-      /* 1 */
-      justify-content: space-between;
-      /* 2 */
-      padding: 1rem 2rem;
-      /* 3 */
-      background: yellowgreen;
-      /* 4 */
-      color: white
-        /* 4 */
-    }
-
-    nav ul {
-      display: flex;
-      /* 5 */
-      list-style: none;
-      /* 6 */
-    }
-
-    nav li {
-      padding-left: 1rem;
-      /* 7! */
-    }
-
-    nav a {
-      text-decoration: none;
-      color: white;
-    }
-
-    nav a:hover {
-      text-decoration: underline;
-    }
-
-    .logout {
-      background-color: black;
-    }
-
-
-
-    table {
-      font-family: arial, sans-serif;
-      border-collapse: collapse;
-      width: 100%;
-    }
-
     td,
     th {
       border: 1px solid #dddddd;
@@ -59,29 +13,36 @@
     tr:nth-child(even) {
       background-color: #dddddd;
     }
-
-    .dashboard-header {
-      display: flex;
-      justify-content: space-between;
-      align-items: center;
-      padding: 0 15px;
-    }
   </style>
   <link rel="stylesheet" href="/assets/css/styles.min.css" />
 </head>
 
 <body>
-  <nav>
-    <h2><a href="v1/auth/login">Admin Dashboard</a> </h2>
-    <ul>
-      <li><a href="/v1/buku">Buku</a></li>
-      <li><a href="/v1/genre">Genre</a></li>
-      <li><a href="/v1/peminjaman">Peminjaman</a></li>
-    </ul>
-    <!-- <button class="logout" type="button"><a href="/v1/auth/logout">Logout</a></button> -->
-    <button type="submit" class="btn btn-primary w-10 py-2 fs-4 mb-4 rounded-2"><a
-        href="/v1/auth/logout">Logout</a></button>
+  <nav class="navbar navbar-expand-lg navbar-light bg-light">
+    <div class="container-fluid">
+      <div class="collapse navbar-collapse" id="navbarNav">
+        <ul class="navbar-nav me-auto mb-2 mb-lg-0">
+          <li class="nav-item">
+            <!-- <a class="nav-link" ">Admin Dashboard</a> -->
+          </li>
+          <li class=" nav-item">
+            <a class="nav-link" href="/v1/buku">Buku</a>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link" href="/v1/genre">Genre</a>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link" href="/v1/peminjaman">Peminjaman</a>
+          </li>
+        </ul>
+
+        <form class="d-flex" action="/v1/auth/logout" method="POST">
+          <button type="submit" class="btn btn-primary py-2 px-4 fs-6 rounded-2">Logout</button>
+        </form>
+      </div>
+    </div>
   </nav>
+
 
   <div class="row">
     <div class="col-lg-12 d-flex align-items-stretch">
@@ -171,9 +132,8 @@
       </div>
     </div>
   </div>
-  </div>
 
-  <div class="row">
+  <!-- <div class="row">
     <div class="col-lg-12 d-flex align-items-stretch">
       <div class="card w-100">
         <div class="card-body p-4">
@@ -233,9 +193,9 @@
         </div>
       </div>
     </div>
-  </div>
+  </div> -->
 
-  <div class="row">
+  <!-- <div class="row">
     <div class="col-lg-12 d-flex align-items-stretch">
       <div class="card w-100">
         <div class="card-body p-4">
@@ -313,7 +273,7 @@
         </div>
       </div>
     </div>
-  </div>
+  </div> -->
 
 
   <script src="/assets/libs/jquery/dist/jquery.min.js"></script>

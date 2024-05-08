@@ -33,10 +33,7 @@ app.use(helmet());
 
 // parse json request body
 app.use(express.json());
-
-// Use method-override middleware
 app.use(methodOverride('_method'));
-
 app.use((req, res, next) => {
   console.log('Received Cookies: ', req.cookies); // Ini akan mencetak semua cookies yang diterima
   next();
@@ -71,7 +68,7 @@ if (config.env === 'production') {
 
 // v1 api routes
 app.use('/v1', routes);
-app.use(methodOverride('_method'));
+
 // send back a 404 error for any unknown api request
 // app.use((req, res, next) => {
 //   next(new ApiError(httpStatus.NOT_FOUND, 'Not found'));
