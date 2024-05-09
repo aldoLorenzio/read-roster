@@ -8,21 +8,22 @@ const createGenre = async (genreBody) => {
   });
 };
 
-const queryGenres = async (filter, options) => {
-  let { genre } = filter;
+const queryGenres = async (filter = {}, options = {}) => {
   const { take, skip } = options;
+  let query = {};
+  if (filter.genre) {
+    query.genre = {
+      contains: filter.genre,
+      mode: 'insensitive',
+    };
+  }
   const genres = await prisma.genre.findMany({
-    where: {
-      genre: {
-        contains: genre,
-        mode: 'insensitive'
-      },
-    },
+    where: query,
     include: {
       Buku: true,
     },
-    take: take && parseInt(take),
-    skip: skip && parseInt(skip),
+    take: take ? parseInt(take) : undefined,
+    skip: skip ? parseInt(skip) : undefined,
     orderBy: {
       genre: 'asc',
     },

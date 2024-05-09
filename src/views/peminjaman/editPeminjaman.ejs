@@ -1,0 +1,98 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Create Book</title>
+  <style>
+    nav {
+      display: flex;
+      /* 1 */
+      justify-content: space-between;
+      /* 2 */
+      padding: 1rem 2rem;
+      /* 3 */
+      background: cornflowerblue;
+      /* 4 */
+      color: white
+        /* 4 */
+    }
+
+    nav ul {
+      display: flex;
+      /* 5 */
+      list-style: none;
+      /* 6 */
+    }
+
+    nav li {
+      padding-left: 1rem;
+      /* 7! */
+    }
+
+    nav a {
+      text-decoration: none;
+      color: white;
+    }
+
+    nav a:hover {
+      text-decoration: underline;
+    }
+
+    .logout {
+      background-color: black;
+    }
+  </style>
+</head>
+
+<body>
+  <nav>
+    <h2>Admin Dashboard</h2>
+    <ul>
+      <li><a href="/v1/buku">Buku</a></li>
+      <li><a href="/v1/genre">Genre</a></li>
+      <li><a href="/v1/peminjaman">Peminjaman</a></li>
+    </ul>
+    <button class="logout" type="button"><a href="/v1/auth/logout">Logout</a></button>
+  </nav>
+
+  <div>
+    <h1>Confirm Pengembalian</h1>
+    <div style="padding: 14px">
+      <table>
+        <tr>
+          <th>Nama</th>
+          <th>title</th>
+          <th>date_borrow</th>
+          <th>date_due</th>
+          <th>date_returned</th>
+        </tr>
+        <tr>
+          <td>
+            <%= peminjamans.User.name %>
+          </td>
+          <td>
+            <%= peminjamans.Buku.title %>
+          </td>
+          <td>
+            <%= peminjamans.date_borrow %>
+          </td>
+          <td>
+            <%= peminjamans.date_due %>
+          </td>
+          <td>
+            <%= peminjamans.date_returned %>
+          </td>
+        </tr>
+      </table>
+    </div>
+    <form action="/v1/peminjaman/<%= peminjamans.id %>?_method=PATCH" method="POST">
+      <label for="date_returned">Date returned: </label>
+      <input type="date" name="date_returned" id="date_returned" required> <br /> <br />
+      <button type="submit">Confirm</button>
+    </form>
+  </div>
+</body>
+
+</html>

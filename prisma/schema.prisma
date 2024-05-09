@@ -58,7 +58,7 @@ model Buku {
 model Peminjaman {
   id            String  @id @default(uuid())
   bukuId        String
-  Buku          Buku    @relation(fields: [bukuId], references: [id])
+  Buku          Buku    @relation(fields: [bukuId], references: [id], onDelete: Cascade)
   userId        String
   User          User    @relation(fields: [userId], references: [id], onDelete: Cascade)
   date_borrow   String

@@ -1,0 +1,129 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>User Dashboard</title>
+  <link rel="shortcut icon" type="image/png" href="/assets/images/logos/favicon.png" />
+  <link rel="stylesheet" href="/assets/css/styles.min.css">
+  <style>
+    table {
+      font-family: arial, sans-serif;
+      border-collapse: collapse;
+      width: 100%;
+    }
+
+    td,
+    th {
+      border: 1px solid #dddddd;
+      text-align: left;
+      padding: 8px;
+    }
+
+    tr:nth-child(even) {
+      background-color: #dddddd;
+    }
+
+    .dashboard-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding: 0 15px;
+    }
+  </style>
+</head>
+
+<body>
+  <div class="container mt-5">
+    <!-- User Greeting and Logout Button -->
+    <div class="dashboard-header mb-4">
+      <h1>Welcome, <%= user.name %>!</h1>
+      <a href="/v1/auth/logout" class="btn btn-primary">Logout</a>
+    </div>
+
+    <!-- User Details -->
+    <div class="row">
+      <div class="col-md-6">
+        <h5>User Details</h5>
+        <p>Email: <%= user.email %>
+        </p>
+        <p>Role: <%= user.role %>
+        </p>
+        <p>Account Created: <%= new Date(user.createdAt).toLocaleDateString() %> at <%= new
+              Date(user.createdAt).toLocaleTimeString() %>
+        </p>
+        <p>Last Updated: <%= new Date(user.updateAt).toLocaleDateString() %> at <%= new
+              Date(user.updateAt).toLocaleTimeString() %>
+        </p>
+        <p>Email Verified: <%= user.isEmailVerified ? 'Yes' : 'No' %>
+        </p>
+      </div>
+
+      <!-- Borrow Book Form -->
+      <div class="col-md-6">
+        <h5>Form Borrow a Book</h5>
+        <form id="borrowForm" action="/v1/peminjaman" method="post">
+          <div class="form-group">
+            <label for="bukuId">Book Name:</label>
+            <select id="bukuId" name="bukuId" class="form-control" required>
+              <% availableBooks.forEach(function(book) { %>
+                <option value="<%= book.id %>">
+                  <%= book.title %>
+                </option>
+                <% }) %>
+            </select>
+          </div>
+          <div class="form-group">
+            <label for="date_borrow">Date Borrow:</label>
+            <input type="date" id="date_borrow" name="date_borrow" class="form-control" required>
+          </div>
+          <div class="form-group">
+            <label for="date_due">Date Due:</label>
+            <input type="date" id="date_due" name="date_due" class="form-control" required>
+          </div>
+          <button type="submit" class="btn btn-success mt-3">Submit</button>
+        </form>
+      </div>
+    </div>
+
+    <!-- Loan Information Table -->
+    <div class="mt-5">
+      <h5>Loan Information</h5>
+      <table class="table">
+        <thead>
+          <tr>
+            <th>Book Name</th>
+            <th>Date Borrow</th>
+            <th>Date Due</th>
+            <th>Date Returned</th>
+          </tr>
+        </thead>
+        <tbody>
+          <% peminjamans.forEach(function(peminjaman) { %>
+            <tr>
+              <td>
+                <%= peminjaman.Buku.title %>
+              </td>
+              <td>
+                <%= new Date(peminjaman.date_borrow).toLocaleDateString() %>
+              </td>
+              <td>
+                <%= new Date(peminjaman.date_due).toLocaleDateString() %>
+              </td>
+              <td>
+                <%= peminjaman.date_returned ? new Date(peminjaman.date_returned).toLocaleDateString()
+                  : 'Not returned yet' %>
+              </td>
+            </tr>
+            <% }) %>
+        </tbody>
+      </table>
+    </div>
+  </div>
+
+  <!-- Bootstrap Bundle with Popper -->
+  <script src="/assets/libs/jquery/dist/jquery.min.js"></script>
+  <script src="/assets/libs/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
+  <script src="/assets/js/sidebarmenu.js"></script>
+  <script src="/assets/js/app.min

@@ -4,10 +4,9 @@ const { objectId } = require('./custom.validation');
 const createPeminjaman = {
   body: Joi.object().keys({
     bukuId: Joi.string().custom(objectId).required(),
-    userId: Joi.string().custom(objectId).required(),
     date_borrow: Joi.string().required(),
     date_due: Joi.string().required(),
-    date_returned: Joi.string(),
+    date_returned: Joi.string().allow('', null),
   }),
 };
 
@@ -32,11 +31,11 @@ const updatePeminjaman = {
   }),
   body: Joi.object()
     .keys({
-        bukuId: Joi.string().custom(objectId),
-        userId: Joi.string().custom(objectId),
-        date_borrow: Joi.string(),
-        date_due: Joi.string(),
-        date_returned: Joi.string(),
+      bukuId: Joi.string().custom(objectId),
+      userId: Joi.string().custom(objectId),
+      date_borrow: Joi.string(),
+      date_due: Joi.string(),
+      date_returned: Joi.string(),
     })
     .min(1),
 };

@@ -15,10 +15,11 @@ const queryBukus = async (filter, options) => {
     where: {
       title: {
         contains: buku,
-        mode: 'insensitive'
+        mode: 'insensitive',
       },
     },
     include: {
+      genre: true,
       Peminjaman: true,
     },
     take: take && parseInt(take),
@@ -36,6 +37,7 @@ const getBukuById = async (id) => {
       id,
     },
     include: {
+      genre: true,
       Peminjaman: true,
     },
   });
@@ -72,10 +74,25 @@ const deleteBukuById = async (bukuId) => {
   return deleteBuku;
 };
 
+const getAvailableBooksByName = async () => {
+  return prisma.buku.findMany({
+    where: {
+      stock: {
+        gt: 0, // Hanya ambil buku dengan stock lebih dari 0
+      },
+    },
+    select: {
+      id: true, // Pastikan untuk memilih ID juga untuk keperluan form submission
+      title: true, // Ini asumsi 'title' adalah nama buku di database
+    },
+  });
+};
+
 module.exports = {
   createBuku,
   queryBukus,
   getBukuById,
   updateBukuById,
   deleteBukuById,
+  getAvailableBooksByName,
 };

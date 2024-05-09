@@ -11,6 +11,8 @@ router
   .post(auth('manageUsers'), validate(peminjamanValidation.createPeminjaman), peminjamanController.createPeminjaman)
   .get(auth('manageUsers'), validate(peminjamanValidation.getPeminjamans), peminjamanController.getPeminjamans);
 
+router.route('/edit/:peminjamanId').get(auth('admin'), peminjamanController.editView);
+
 router
   .route('/:peminjamanId')
   .get(auth('admin'), validate(peminjamanValidation.getPeminjaman), peminjamanController.getPeminjaman)

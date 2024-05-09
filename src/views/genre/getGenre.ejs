@@ -1,0 +1,116 @@
+<!DOCTYPE html>
+<html lang="en">
+<!DOCTYPE html>
+<html>
+
+<head>
+  <style>
+    td,
+    th {
+      border: 1px solid #dddddd;
+      text-align: left;
+      padding: 8px;
+    }
+
+    tr:nth-child(even) {
+      background-color: #dddddd;
+    }
+  </style>
+  <link rel="shortcut icon" type="image/png" href="/assets/images/logos/favicon.png" />
+  <link rel="stylesheet" href="/assets/css/styles.min.css" />
+</head>
+
+<body>
+  <nav class="navbar navbar-expand-lg navbar-light bg-light">
+    <div class="container-fluid">
+      <div class="collapse navbar-collapse" id="navbarNav">
+        <ul class="navbar-nav me-auto mb-2 mb-lg-0">
+          <li class="nav-item">
+            <!-- <a class="nav-link" href="/v1/auth/login">Admin Dashboard</a> -->
+
+          </li>
+          <li class="nav-item">
+            <a class="nav-link" href="/v1/buku">Buku</a>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link" href="/v1/genre">Genre</a>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link" href="/v1/peminjaman">Peminjaman</a>
+          </li>
+        </ul>
+
+        <form class="d-flex" action="/v1/auth/logout" method="POST">
+          <button type="submit" class="btn btn-primary py-2 px-4 fs-6 rounded-2">Logout</button>
+        </form>
+      </div>
+    </div>
+  </nav>
+  <div class="row">
+    <div class="col-lg-12 d-flex align-items-stretch">
+      <div class="card w-100">
+        <div class="card-body p-4">
+          <div class="table-responsive">
+            <table class="table text-nowrap mb-0 align-middle">
+              <% genres.forEach(function(genre) { %>
+
+                <thead class="text-dark fs-4">
+                  <tr>
+                    <th class="border-bottom-0" colspan="4">
+                      <h3 class="fw-semibold mb-0" style="color: #5d87ff;">
+                        <%= genre.genre %>
+                          (ID: <%= genre.id %>)
+                      </h3>
+                    </th>
+                  </tr>
+                  <tr>
+                    <th class="border-bottom-0">
+                      <h6 class="fw-semibold mb-0">Title</h6>
+                    </th>
+                    <th class="border-bottom-0">
+                      <h6 class="fw-semibold mb-0">Author</h6>
+                    </th>
+                    <th class="border-bottom-0">
+                      <h6 class="fw-semibold mb-0">Year Published</h6>
+                    </th>
+                    <th class="border-bottom-0">
+                      <h6 class="fw-semibold mb-0">Stock</h6>
+                    </th>
+                  </tr>
+                </thead>
+                <tbody>
+                  <% genre.Buku.forEach(function(book) { %>
+                    <tr>
+                      <td class="border-bottom-0">
+                        <%= book.title %>
+                      </td>
+                      <td class="border-bottom-0">
+                        <%= book.author %>
+                      </td>
+                      <td class="border-bottom-0">
+                        <%= book.year_published %>
+                      </td>
+                      <td class="border-bottom-0">
+                        <%= book.stock %>
+                      </td>
+                    </tr>
+                    <% }); %>
+                </tbody>
+                <% }); %>
+
+            </table>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+  <script src="/assets/libs/jquery/dist/jquery.min.js"></script>
+  <script src="/assets/libs/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
+  <script src="/assets/js/sidebarmenu.js"></script>
+  <script src="/assets/js/app.min.js"></script>
+  <script src="/assets/libs/apexcharts/dist/apexcharts.min.js"></script>
+  <script src="/assets/libs/simplebar/dist/simplebar.js"></script>
+  <script src="/assets/js/dashboard.js"></script>
+</body>
+
+</html>

@@ -13,13 +13,25 @@ const { tokenTypes } = require('../config/tokens');
  * @returns {Promise<User>}
  */
 const loginUserWithEmailAndPassword = async (email, password) => {
-  const user = await userService.getUserByEmail(email);
-  const validPassword = await bcrypt.compare(password, user.password);
+  // const user = await userService.getUserByEmail(email);
+  // const validPassword = await bcrypt.compare(password, user.password);
 
-  if (!user || !validPassword) {
-    throw new ApiError(httpStatus.UNAUTHORIZED, 'Incorrect email or password');
+  // if (!user || !validPassword) {
+  //   throw new ApiError(httpStatus.UNAUTHORIZED, 'Incorrect email or password');
+  // }
+  // return user;
+  const user = await userService.getUserByEmail(email);
+  if (!user) {
+    throw new ApiError(httpStatus.UNAUTHORIZED, 'Incorrect email');
   }
-  return user;
+  const validPassword = await bcrypt.compare(password, user.password);
+  if (!validPassword) {
+    throw new ApiError(httpStatus.UNAUTHORIZED, 'Incorrect password');
+  }
+
+  // Generate token after successful login
+  const tokens = await tokenService.generateAuthTokens(user);
+  return { user, tokens };
 };
 
 /**

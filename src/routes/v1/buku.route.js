@@ -11,6 +11,12 @@ router
   .post(auth('admin'), validate(bukuValidation.createBuku), bukuController.createBuku)
   .get(auth('admin'), validate(bukuValidation.getBukus), bukuController.getBukus);
 
+router.route('/detail/:bukuId').get(bukuController.detailBuku);
+
+router.route('/create').get(bukuController.createView);
+
+router.route('/edit/:bukuId').get(bukuController.editView);
+
 router
   .route('/:bukuId')
   .get(auth('admin'), validate(bukuValidation.getBuku), bukuController.getBuku)

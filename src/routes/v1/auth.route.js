@@ -14,11 +14,22 @@ router.get('/register', (req, res) => {
 
 router.post('/login', validate(authValidation.login), authController.login);
 router.get('/login', (req, res) => {
-  console.log('Accessing login page');
   res.render('auth/login.ejs');
 });
 
-router.post('/logout', validate(authValidation.logout), authController.logout);
+router.post('/login/postman', validate(authValidation.login), authController.loginPostman);
+
+router.get('/logout', (req, res) => {
+  req.logout();
+  res.redirect('/v1/auth/login');
+});
+
+router.post('/logout', (req, res) => {
+  // You might send a simple response back to the client to clear the token
+  // res.status(200).send({ message: 'Logged out' });
+  res.redirect('/v1/auth/login');
+});
+
 router.post('/refresh-tokens', validate(authValidation.refreshTokens), authController.refreshTokens);
 router.post('/forgot-password', validate(authValidation.forgotPassword), authController.forgotPassword);
 router.post('/reset-password', validate(authValidation.resetPassword), authController.resetPassword);

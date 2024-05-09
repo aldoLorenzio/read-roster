@@ -1,0 +1,104 @@
+<!DOCTYPE html>
+<html lang="en">
+<!DOCTYPE html>
+<html>
+
+<head>
+  <style>
+    td,
+    th {
+      border: 1px solid #dddddd;
+      text-align: left;
+      padding: 8px;
+    }
+
+    tr:nth-child(even) {
+      background-color: #dddddd;
+    }
+  </style>
+  <link rel="shortcut icon" type="image/png" href="/assets/images/logos/favicon.png" />
+  <link rel="stylesheet" href="/assets/css/styles.min.css" />
+</head>
+
+<body>
+  <nav class="navbar navbar-expand-lg navbar-light bg-light">
+    <div class="container-fluid">
+      <div class="collapse navbar-collapse" id="navbarNav">
+        <ul class="navbar-nav me-auto mb-2 mb-lg-0">
+          <li class="nav-item">
+
+          </li>
+          <li class="nav-item">
+            <a class="nav-link" href="/v1/buku">Buku</a>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link" href="/v1/genre">Genre</a>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link" href="/v1/peminjaman">Peminjaman</a>
+          </li>
+        </ul>
+
+        <form class="d-flex" action="/v1/auth/logout" method="POST">
+          <button type="submit" class="btn btn-primary py-2 px-4 fs-6 rounded-2">Logout</button>
+        </form>
+      </div>
+    </div>
+  </nav>
+
+  <div class="container mt-5">
+    <h1>Create Book</h1>
+    <form action="/v1/buku" method="POST">
+      <!-- <div class="mb-3">
+        <label for="genreId" class="form-label">Genre ID:</label>
+        <input type="text" name="genreId" id="genreId" class="form-control" required>
+      </div> -->
+
+      <div class="mb-3">
+        <label for="genreId" class="form-label">Genre:</label>
+        <select name="genreId" id="genreId" class="form-control" required>
+          <% genres.forEach(function(genre) { %>
+            <option value="<%= genre.id %>">
+              <%= genre.genre %>
+            </option>
+            <% }); %>
+        </select>
+      </div>
+
+
+
+      <div class="mb-3">
+        <label for="title" class="form-label">Title:</label>
+        <input type="text" name="title" id="title" class="form-control" required>
+      </div>
+
+      <div class="mb-3">
+        <label for="author" class="form-label">Author:</label>
+        <input type="text" name="author" id="author" class="form-control" required>
+      </div>
+
+      <div class="mb-3">
+        <label for="year_published" class="form-label">Year Published:</label>
+        <input type="number" name="year_published" id="year_published" class="form-control" required>
+      </div>
+
+      <div class="mb-3">
+        <label for="stock" class="form-label">Stock:</label>
+        <input type="number" name="stock" id="stock" class="form-control">
+      </div>
+
+      <button type="submit" class="btn btn-primary">Create Book</button>
+    </form>
+  </div>
+
+
+  <script src="/assets/libs/jquery/dist/jquery.min.js"></script>
+  <script src="/assets/libs/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
+  <script src="/assets/js/sidebarmenu.js"></script>
+  <script src="/assets/js/app.min.js"></script>
+  <script src="/assets/libs/apexcharts/dist/apexcharts.min.js"></script>
+  <script src="/assets/libs/simplebar/dist/simplebar.js"></script>
+  <script src="/assets/js/dashboard.js"></script>
+</body>
+
+</html>
